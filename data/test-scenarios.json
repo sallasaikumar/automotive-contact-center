@@ -1,0 +1,92 @@
+[
+  {
+    "scenario": "Service Appointment - Routine",
+    "messages": [
+      "I need to schedule an oil change",
+      "What's available next week?",
+      "Tuesday morning works for me"
+    ],
+    "expectedIntent": "service",
+    "expectedSentiment": "neutral",
+    "expectedRoute": "Service Department"
+  },
+  {
+    "scenario": "Urgent Technical Issue",
+    "messages": [
+      "My check engine light is on and the car is making a strange noise",
+      "This is urgent, I need help immediately",
+      "Can someone look at it today?"
+    ],
+    "expectedIntent": "technical",
+    "expectedSentiment": "negative",
+    "expectedRoute": "Technical Support",
+    "expectedUrgency": "high"
+  },
+  {
+    "scenario": "Sales Inquiry - New Vehicle",
+    "messages": [
+      "I'm interested in buying a new SUV",
+      "What models do you have in stock?",
+      "Can I schedule a test drive for the RAV4?"
+    ],
+    "expectedIntent": "sales",
+    "expectedSentiment": "positive",
+    "expectedRoute": "Sales Department"
+  },
+  {
+    "scenario": "Warranty Question",
+    "messages": [
+      "Is my transmission covered under warranty?",
+      "My car has 40,000 miles",
+      "What would it cost if it's not covered?"
+    ],
+    "expectedIntent": "warranty",
+    "expectedSentiment": "neutral",
+    "expectedRoute": "Warranty Department"
+  },
+  {
+    "scenario": "Frustrated Customer",
+    "messages": [
+      "I've been waiting for 3 weeks for a part",
+      "This is unacceptable, I need my car fixed now",
+      "I want to speak to a manager"
+    ],
+    "expectedIntent": "service",
+    "expectedSentiment": "negative",
+    "expectedRoute": "Service Department",
+    "expectedEscalation": true
+  },
+  {
+    "scenario": "General Information",
+    "messages": [
+      "What are your service hours?",
+      "Do you offer loaner cars?",
+      "Where is your location?"
+    ],
+    "expectedIntent": "general",
+    "expectedSentiment": "neutral",
+    "expectedRoute": "General Inquiry"
+  },
+  {
+    "scenario": "Electric Vehicle Interest",
+    "messages": [
+      "Tell me about your electric vehicles",
+      "What's the range on the Model 3?",
+      "Are there any tax incentives?"
+    ],
+    "expectedIntent": "sales",
+    "expectedSentiment": "positive",
+    "expectedRoute": "Sales Department"
+  },
+  {
+    "scenario": "Maintenance Due",
+    "messages": [
+      "When is my next service due?",
+      "What's included in the 30k mile service?",
+      "How much will it cost?"
+    ],
+    "expectedIntent": "service",
+    "expectedSentiment": "neutral",
+    "expectedRoute": "Service Department"
+  }
+]

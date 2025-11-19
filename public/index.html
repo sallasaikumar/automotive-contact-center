@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automotive Intelligent Contact Center</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="chat-header">
+      <div class="header-content">
+        <h1>🚗 Automotive Contact Center</h1>
+        <div class="status">
+          <span class="status-indicator" id="status"></span>
+          <span id="status-text">Connecting...</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-container">
+      <div class="messages" id="messages">
+        <div class="message bot-message">
+          <div class="message-content">
+            <strong>AI Assistant</strong>
+            <p>Welcome to our Automotive Intelligent Contact Center! I'm here to help you with service appointments, vehicle information, warranty questions, and more. How can I assist you today?</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggestions" id="suggestions">
+        <button class="suggestion-btn" onclick="sendSuggestion('I need to schedule a service appointment')">Schedule Service</button>
+        <button class="suggestion-btn" onclick="sendSuggestion('My check engine light is on')">Check Engine Light</button>
+        <button class="suggestion-btn" onclick="sendSuggestion('What models do you have available?')">Browse Models</button>
+        <button class="suggestion-btn" onclick="sendSuggestion('Check my warranty status')">Warranty Info</button>
+      </div>
+
+      <div class="quick-actions" id="quick-actions"></div>
+
+      <div class="input-container">
+        <input 
+          type="text" 
+          id="message-input" 
+          placeholder="Type your message..." 
+          autocomplete="off"
+        >
+        <button id="send-btn" onclick="sendMessage()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="metadata-panel" id="metadata-panel">
+      <h3>Agent Insights</h3>
+      <div id="metadata-content"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+{
+  "service": [
+    {
+      "id": "SRV001",
+      "topic": "oil change",
+      "title": "Oil Change Service",
+      "content": "Oil changes are recommended every 5,000-7,500 miles for conventional oil and 7,500-10,000 miles for synthetic oil. Regular oil changes help maintain engine performance and longevity.",
+      "relatedTopics": ["maintenance schedule", "engine care"],
+      "estimatedCost": "$45-$85",
+      "duration": "30-45 minutes"
+    },
+    {
+      "id": "SRV002",
+      "topic": "maintenance schedule",
+      "title": "Routine Maintenance Schedule",
+      "content": "Regular maintenance includes oil changes every 5,000-7,500 miles, tire rotations every 6,000-8,000 miles, brake inspections every 12,000 miles, and fluid checks at each service.",
+      "relatedTopics": ["oil change", "tire service", "brake service"],
+      "estimatedCost": "$150-$300",
+      "duration": "1-2 hours"
+    },
+    {
+      "id": "SRV003",
+      "topic": "check engine light",
+      "title": "Check Engine Light Diagnostic",
+      "content": "A check engine light can indicate various issues from loose gas cap to serious engine problems. We recommend a diagnostic scan to identify the specific error code and issue.",
+      "relatedTopics": ["diagnostics", "engine problems"],
+      "estimatedCost": "$89-$150",
+      "duration": "45-60 minutes"
+    },
+    {
+      "id": "SRV004",
+      "topic": "tire service",
+      "title": "Tire Rotation and Balance",
+      "content": "Tire rotation extends tire life and ensures even wear. We recommend rotation every 6,000-8,000 miles. Includes balance check and pressure adjustment.",
+      "relatedTopics": ["maintenance schedule"],
+      "estimatedCost": "$35-$60",
+      "duration": "30 minutes"
+    },
+    {
+      "id": "SRV005",
+      "topic": "brake service",
+      "title": "Brake Inspection and Service",
+      "content": "Brake service includes pad replacement, rotor inspection, fluid check, and system testing. Warning signs include squeaking, grinding, or reduced stopping power.",
+      "relatedTopics": ["safety", "maintenance schedule"],
+      "estimatedCost": "$200-$500",
+      "duration": "1-3 hours"
+    }
+  ],
+  "sales": [
+    {
+      "id": "SAL001",
+      "topic": "models",
+      "title": "Available Vehicle Models",
+      "content": "We offer a wide range of models including sedans (Camry, Accord), SUVs (RAV4, CR-V, Explorer), trucks (F-150, Silverado), and electric vehicles (Model 3, Leaf, Bolt).",
+      "relatedTopics": ["financing", "test drive"],
+      "inventory": 150
+    },
+    {
+      "id": "SAL002",
+      "topic": "financing",
+      "title": "Financing Options",
+      "content": "We provide competitive financing with rates starting at 2.9% APR for qualified buyers. Flexible terms from 24-72 months. Trade-ins accepted.",
+      "relatedTopics": ["models", "leasing"],
+      "minRate": "2.9%"
+    },
+    {
+      "id": "SAL003",
+      "topic": "test drive",
+      "title": "Schedule a Test Drive",
+      "content": "Test drives can be scheduled online or by calling our sales department. Available 7 days a week. Bring your driver's license and insurance information.",
+      "relatedTopics": ["models", "sales contact"],
+      "availability": "Mon-Sat 9AM-8PM, Sun 10AM-6PM"
+    },
+    {
+      "id": "SAL004",
+      "topic": "electric vehicles",
+      "title": "Electric Vehicle Options",
+      "content": "Our EV lineup includes Tesla Model 3, Nissan Leaf, Chevy Bolt, and Ford Mustang Mach-E. Federal tax credits up to $7,500 available on select models.",
+      "relatedTopics": ["models", "financing", "charging"],
+      "taxCredit": "$7,500"
+    },
+    {
+      "id": "SAL005",
+      "topic": "trade-in",
+      "title": "Vehicle Trade-In",
+      "content": "Get instant trade-in value online. We accept all makes and models. Trade-in value can be applied to your purchase or lease.",
+      "relatedTopics": ["financing", "models"],
+      "process": "Online appraisal in 5 minutes"
+    }
+  ],
+  "warranty": [
+    {
+      "id": "WAR001",
+      "topic": "coverage",
+      "title": "Standard Warranty Coverage",
+      "content": "Our standard warranty covers 3 years/36,000 miles bumper-to-bumper and 5 years/60,000 miles powertrain. Includes roadside assistance and rental car coverage.",
+      "relatedTopics": ["extended warranty", "claims"],
+      "bumperToBumper": "3 years/36,000 miles",
+      "powertrain": "5 years/60,000 miles"
+    },
+    {
+      "id": "WAR002",
+      "topic": "extended warranty",
+      "title": "Extended Warranty Plans",
+      "content": "Extended warranty options available for additional coverage beyond standard warranty. Plans range from 1-7 years with various mileage limits. Transferable to new owners.",
+      "relatedTopics": ["coverage", "pricing"],
+      "maxCoverage": "10 years/100,000 miles"
+    },
+    {
+      "id": "WAR003",
+      "topic": "claims",
+      "title": "Filing a Warranty Claim",
+      "content": "To file a claim, contact our service department with your VIN and issue description. Most claims processed within 24-48 hours. Approved repairs covered 100%.",
+      "relatedTopics": ["coverage", "service"],
+      "processingTime": "24-48 hours"
+    },
+    {
+      "id": "WAR004",
+      "topic": "roadside assistance",
+      "title": "24/7 Roadside Assistance",
+      "content": "Included with warranty: towing, flat tire service, lockout assistance, fuel delivery, and jump starts. Available 24/7 nationwide.",
+      "relatedTopics": ["coverage"],
+      "availability": "24/7 nationwide"
+    }
+  ],
+  "technical": [
+    {
+      "id": "TEC001",
+      "topic": "diagnostics",
+      "title": "Vehicle Diagnostics",
+      "content": "Our certified technicians use advanced diagnostic tools to identify issues. Computer scan includes all vehicle systems: engine, transmission, ABS, airbags, and more.",
+      "relatedTopics": ["check engine light", "service"],
+      "systems": ["Engine", "Transmission", "ABS", "Airbags", "Climate Control"]
+    },
+    {
+      "id": "TEC002",
+      "topic": "software updates",
+      "title": "Vehicle Software Updates",
+      "content": "Software updates improve performance, add features, and fix bugs. Available OTA (over-the-air) for compatible vehicles or at service center. Updates typically take 30-60 minutes.",
+      "relatedTopics": ["service", "electric vehicles"],
+      "duration": "30-60 minutes"
+    },
+    {
+      "id": "TEC003",
+      "topic": "recalls",
+      "title": "Safety Recalls",
+      "content": "Check for open recalls using your VIN. All recall repairs are free regardless of warranty status. Schedule recall service online or by phone.",
+      "relatedTopics": ["service", "safety"],
+      "cost": "Free"
+    },
+    {
+      "id": "TEC004",
+      "topic": "owner manual",
+      "title": "Owner's Manual and Guides",
+      "content": "Digital owner's manuals available online. Includes maintenance schedules, feature guides, and troubleshooting. Also available as mobile app.",
+      "relatedTopics": ["maintenance schedule"],
+      "format": "PDF and Mobile App"
+    }
+  ],
+  "general": [
+    {
+      "id": "GEN001",
+      "topic": "hours",
+      "title": "Service Hours",
+      "content": "Service Department: Mon-Fri 7AM-7PM, Sat 8AM-5PM, Sun Closed. Sales Department: Mon-Sat 9AM-8PM, Sun 10AM-6PM.",
+      "serviceHours": "Mon-Fri 7AM-7PM, Sat 8AM-5PM",
+      "salesHours": "Mon-Sat 9AM-8PM, Sun 10AM-6PM"
+    },
+    {
+      "id": "GEN002",
+      "topic": "location",
+      "title": "Dealership Locations",
+      "content": "Downtown Location: 123 Main St. North Location: 456 Oak Ave. South Location: 789 Elm Blvd. All locations offer full service and sales.",
+      "locations": 3
+    },
+    {
+      "id": "GEN003",
+      "topic": "contact",
+      "title": "Contact Information",
+      "content": "Service: 555-0100, Sales: 555-0200, Parts: 555-0300. Email: service@dealer.com. Live chat available on website 24/7.",
+      "phone": "555-0100",
+      "email": "service@dealer.com"
+    }
+  ]
+}

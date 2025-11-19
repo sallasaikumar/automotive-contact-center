@@ -1,0 +1,18 @@
+{
+  "name": "automotive-contact-center",
+  "version": "1.0.0",
+  "description": "AI Agent-based Automotive Intelligent Contact Center",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "test": "node test-runner.js",
+    "test:single": "node test-runner.js",
+    "demo": "node demo.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "ws": "^8.14.2",
+    "uuid": "^9.0.1"
+  }
+}

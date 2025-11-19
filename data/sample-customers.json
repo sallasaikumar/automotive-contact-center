@@ -1,0 +1,127 @@
+[
+  {
+    "id": "CUST001",
+    "name": "John Smith",
+    "email": "john.smith@email.com",
+    "phone": "+1-555-0101",
+    "vehicle": {
+      "vin": "1HGBH41JXMN109186",
+      "make": "Toyota",
+      "model": "Camry",
+      "year": 2022,
+      "color": "Silver",
+      "mileage": 15420,
+      "lastService": "2024-10-15",
+      "nextServiceDue": "2025-01-15"
+    },
+    "serviceHistory": [
+      {
+        "date": "2024-10-15",
+        "type": "Oil Change",
+        "mileage": 15000,
+        "cost": 49.99,
+        "notes": "Synthetic oil, tire rotation included"
+      },
+      {
+        "date": "2024-07-20",
+        "type": "Routine Maintenance",
+        "mileage": 12000,
+        "cost": 189.99,
+        "notes": "30k service, brake inspection, fluid top-off"
+      }
+    ],
+    "warranty": {
+      "type": "Comprehensive",
+      "startDate": "2022-03-15",
+      "endDate": "2025-03-15",
+      "mileageLimit": 36000,
+      "status": "Active"
+    },
+    "preferences": {
+      "language": "en",
+      "contactMethod": "chat",
+      "preferredDealer": "Downtown Toyota"
+    }
+  },
+  {
+    "id": "CUST002",
+    "name": "Sarah Johnson",
+    "email": "sarah.j@email.com",
+    "phone": "+1-555-0102",
+    "vehicle": {
+      "vin": "5YJSA1E26HF123456",
+      "make": "Tesla",
+      "model": "Model 3",
+      "year": 2023,
+      "color": "Blue",
+      "mileage": 8500,
+      "lastService": "2024-11-01",
+      "nextServiceDue": "2025-05-01"
+    },
+    "serviceHistory": [
+      {
+        "date": "2024-11-01",
+        "type": "Software Update",
+        "mileage": 8500,
+        "cost": 0,
+        "notes": "OTA update, tire rotation"
+      }
+    ],
+    "warranty": {
+      "type": "Extended",
+      "startDate": "2023-06-10",
+      "endDate": "2031-06-10",
+      "mileageLimit": 100000,
+      "status": "Active"
+    },
+    "preferences": {
+      "language": "en",
+      "contactMethod": "email",
+      "preferredDealer": "Tesla Service Center"
+    }
+  },
+  {
+    "id": "CUST003",
+    "name": "Michael Chen",
+    "email": "m.chen@email.com",
+    "phone": "+1-555-0103",
+    "vehicle": {
+      "vin": "1FTFW1ET5DFC10312",
+      "make": "Ford",
+      "model": "F-150",
+      "year": 2021,
+      "color": "Black",
+      "mileage": 32500,
+      "lastService": "2024-09-10",
+      "nextServiceDue": "2024-12-10"
+    },
+    "serviceHistory": [
+      {
+        "date": "2024-09-10",
+        "type": "Brake Service",
+        "mileage": 32000,
+        "cost": 425.00,
+        "notes": "Front brake pads replaced, rotors resurfaced"
+      },
+      {
+        "date": "2024-06-05",
+        "type": "Oil Change",
+        "mileage": 29000,
+        "cost": 65.00,
+        "notes": "Full synthetic oil"
+      }
+    ],
+    "warranty": {
+      "type": "Basic",
+      "startDate": "2021-01-20",
+      "endDate": "2024-01-20",
+      "mileageLimit": 36000,
+      "status": "Expired"
+    },
+    "preferences": {
+      "language": "en",
+      "contactMethod": "phone",
+      "preferredDealer": "Ford Service Plus"
+    }
+  }
+]
