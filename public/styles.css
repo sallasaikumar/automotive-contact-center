@@ -238,6 +238,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
 }
 
 .chat-header-bar {
@@ -473,6 +474,7 @@ body {
   position: relative;
   max-height: 80px;
   transition: max-height 0.3s ease;
+  z-index: 2;
 }
 
 .suggestions-bar.collapsed {
@@ -540,11 +542,13 @@ body {
 .quick-actions-bar {
   display: none;
   padding: 0.75rem 1.5rem;
-  background: var(--light);
-  border-top: 2px solid var(--border);
+  background: #fef3c7;
+  border-top: 2px solid #fbbf24;
   gap: 0.75rem;
   flex-wrap: wrap;
   min-height: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .quick-actions-bar:not(:empty) {
@@ -575,6 +579,8 @@ body {
   padding: 1.5rem;
   background: white;
   border-top: 1px solid var(--border);
+  position: relative;
+  z-index: 3;
 }
 
 .input-wrapper {
