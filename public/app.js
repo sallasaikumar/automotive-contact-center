@@ -261,3 +261,262 @@ document.getElementById('message-input').addEventListener('keypress', (e) => {
 });
 
 connectWebSocket();
+
+// ========================================
+// REAL-TIME DATA DEMO FEATURES
+// ========================================
+
+// Simulate real-time customer data updates
+function startRealTimeDataDemo() {
+  // Update stats periodically
+  setInterval(updateLiveStats, 3000);
+  
+  // Simulate agent activity
+  setInterval(simulateAgentActivity, 5000);
+  
+  // Update metrics
+  setInterval(updateLiveMetrics, 2000);
+}
+
+let totalRequests = 0;
+let avgResponseTime = 450;
+
+function updateLiveStats() {
+  totalRequests++;
+  avgResponseTime = Math.floor(Math.random() * 200) + 300; // 300-500ms
+  
+  const responseTimeStat = document.getElementById('response-time');
+  if (responseTimeStat) {
+    responseTimeStat.textContent = `${avgResponseTime}ms`;
+    responseTimeStat.style.animation = 'pulse 0.5s';
+    setTimeout(() => {
+      responseTimeStat.style.animation = '';
+    }, 500);
+  }
+}
+
+function simulateAgentActivity() {
+  const agents = ['supervisor', 'intent', 'sentiment', 'routing', 'knowledge', 'personalization', 'response'];
+  const randomAgent = agents[Math.floor(Math.random() * agents.length)];
+  
+  // Flash agent card
+  const agentCard = document.querySelector(`[data-agent="${randomAgent}"]`);
+  if (agentCard) {
+    agentCard.style.animation = 'flash 0.5s';
+    setTimeout(() => {
+      agentCard.style.animation = '';
+    }, 500);
+  }
+}
+
+function updateLiveMetrics() {
+  // Simulate confidence changes
+  const intentConfidence = document.getElementById('intent-confidence');
+  if (intentConfidence) {
+    const confidence = Math.floor(Math.random() * 20) + 75; // 75-95%
+    intentConfidence.style.width = `${confidence}%`;
+  }
+}
+
+// Demo mode - Auto-send messages
+let demoMode = false;
+let demoMessages = [
+  "I need to schedule an oil change",
+  "My check engine light is on",
+  "What SUVs do you have available?",
+  "Is my transmission covered under warranty?",
+  "What are your service hours?"
+];
+let demoIndex = 0;
+
+function startDemoMode() {
+  if (demoMode) return;
+  demoMode = true;
+  
+  const demoInterval = setInterval(() => {
+    if (demoIndex >= demoMessages.length) {
+      demoIndex = 0;
+      clearInterval(demoInterval);
+      demoMode = false;
+      return;
+    }
+    
+    document.getElementById('message-input').value = demoMessages[demoIndex];
+    sendMessage();
+    demoIndex++;
+  }, 8000); // Send message every 8 seconds
+}
+
+// Real-time customer data display
+function showCustomerData() {
+  const customers = [
+    { name: 'John Smith', vehicle: 'Toyota Camry 2022', status: 'Active' },
+    { name: 'Sarah Johnson', vehicle: 'Tesla Model 3 2023', status: 'Active' },
+    { name: 'Michael Chen', vehicle: 'Ford F-150 2021', status: 'Active' }
+  ];
+  
+  const randomCustomer = customers[Math.floor(Math.random() * customers.length)];
+  
+  // Show notification
+  showNotification(`📊 Customer Data: ${randomCustomer.name} - ${randomCustomer.vehicle}`);
+}
+
+function showNotification(message) {
+  const notification = document.createElement('div');
+  notification.className = 'live-notification';
+  notification.textContent = message;
+  notification.style.cssText = `
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    z-index: 10000;
+    animation: slideInRight 0.5s, slideOutRight 0.5s 3s;
+    font-weight: 600;
+  `;
+  
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.remove();
+  }, 3500);
+}
+
+// Knowledge base query visualization
+function showKnowledgeQuery(query) {
+  const knowledgeCard = document.querySelector('[data-agent="knowledge"]');
+  if (knowledgeCard) {
+    const badge = document.createElement('div');
+    badge.className = 'query-badge';
+    badge.textContent = '🔍 Searching...';
+    badge.style.cssText = `
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: #f59e0b;
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      animation: bounce 0.5s;
+    `;
+    
+    knowledgeCard.style.position = 'relative';
+    knowledgeCard.appendChild(badge);
+    
+    setTimeout(() => {
+      badge.textContent = '✓ Found';
+      badge.style.background = '#10b981';
+    }, 1000);
+    
+    setTimeout(() => {
+      badge.remove();
+    }, 2000);
+  }
+}
+
+// Add CSS animations
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes flash {
+    0%, 100% { background: inherit; }
+    50% { background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+  }
+  
+  @keyframes slideInRight {
+    from {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideOutRight {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+`;
+document.head.appendChild(style);
+
+// Enhanced message sending with real-time visualization
+const originalSendMessage = sendMessage;
+sendMessage = function() {
+  // Show knowledge query
+  showKnowledgeQuery('Searching knowledge base...');
+  
+  // Show customer data
+  setTimeout(() => showCustomerData(), 500);
+  
+  // Call original function
+  originalSendMessage();
+};
+
+// Start real-time features
+startRealTimeDataDemo();
+
+// Keyboard shortcut for demo mode
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.key === 'd') {
+    e.preventDefault();
+    startDemoMode();
+    showNotification('🎬 Demo Mode Started!');
+  }
+});
+
+// Add demo button
+const demoButton = document.createElement('button');
+demoButton.textContent = '🎬 Start Demo';
+demoButton.style.cssText = `
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  z-index: 1000;
+  transition: all 0.3s;
+`;
+demoButton.onmouseover = () => {
+  demoButton.style.transform = 'scale(1.05)';
+};
+demoButton.onmouseout = () => {
+  demoButton.style.transform = 'scale(1)';
+};
+demoButton.onclick = () => {
+  startDemoMode();
+  showNotification('🎬 Auto-Demo Started! Watch the magic happen...');
+};
+document.body.appendChild(demoButton);
+
+console.log('🚀 Real-time demo features loaded!');
+console.log('💡 Press Ctrl+D to start auto-demo mode');
+console.log('💡 Click "Start Demo" button for automatic demonstration');
