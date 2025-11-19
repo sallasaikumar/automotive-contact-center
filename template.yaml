@@ -1,0 +1,245 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Automotive Intelligent Contact Center - Serverless Architecture
+
+Globals:
+  Function:
+    Timeout: 30
+    Runtime: nodejs18.x
+    Environment:
+      Variables:
+        DYNAMODB_TABLE: !Ref CustomerDataTable
+        S3_BUCKET: !Ref ChatLogsBucket
+        KENDRA_INDEX_ID: !Ref KendraIndex
+
+Resources:
+  # API Gateway
+  ContactCenterApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      Cors:
+        AllowMethods: "'GET,POST,OPTIONS'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+        AllowOrigin: "'*'"
+
+  # WebSocket API for Real-time Chat
+  WebSocketApi:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: ContactCenterWebSocket
+      ProtocolType: WEBSOCKET
+      RouteSelectionExpression: "$request.body.action"
+
+  # Lambda Functions for Each Agent
+  
+  SupervisorAgentFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/supervisor-agent/
+      Handler: index.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CustomerDataTable
+        - S3CrudPolicy:
+            BucketName: !Ref ChatLogsBucket
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ContactCenterApi
+            Path: /supervisor
+            Method: post
+
+  IntentAnalysisFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/intent-analysis/
+      Handler: index.handler
+      Environment:
+        Variables:
+          LEX_BOT_ID: !Ref LexBot
+      Policies:
+        - Statement:
+          - Effect: Allow
+            Action:
+              - lex:RecognizeText
+              - comprehend:DetectSentiment
+            Resource: '*'
+
+  SentimentAnalysisFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/sentiment-analysis/
+      Handler: index.handler
+      Policies:
+        - Statement:
+          - Effect: Allow
+            Action:
+              - comprehend:DetectSentiment
+              - comprehend:DetectEntities
+            Resource: '*'
+
+  RoutingAgentFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/routing-agent/
+      Handler: index.handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref CustomerDataTable
+
+  KnowledgeRetrievalFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/knowledge-retrieval/
+      Handler: index.handler
+      Environment:
+        Variables:
+          KENDRA_INDEX_ID: !Ref KendraIndex
+      Policies:
+        - Statement:
+          - Effect: Allow
+            Action:
+              - kendra:Query
+              - kendra:Retrieve
+            Resource: !GetAtt KendraIndex.Arn
+
+  PersonalizationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/personalization/
+      Handler: index.handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref CustomerDataTable
+
+  ResponseGenerationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/response-generation/
+      Handler: index.handler
+      Environment:
+        Variables:
+          BEDROCK_MODEL_ID: anthropic.claude-v2
+      Policies:
+        - Statement:
+          - Effect: Allow
+            Action:
+              - bedrock:InvokeModel
+            Resource: '*'
+
+  # DynamoDB Table for Customer Data
+  CustomerDataTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: automotive-customer-data
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: customerId
+          AttributeType: S
+        - AttributeName: sessionId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: customerId
+          KeyType: HASH
+        - AttributeName: sessionId
+          KeyType: RANGE
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+
+  # S3 Bucket for Chat Logs
+  ChatLogsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'automotive-chat-logs-${AWS::AccountId}'
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      VersioningConfiguration:
+        Status: Enabled
+
+  # Amazon Kendra Index for Knowledge Base
+  KendraIndex:
+    Type: AWS::Kendra::Index
+    Properties:
+      Name: automotive-knowledge-base
+      Edition: DEVELOPER_EDITION
+      RoleArn: !GetAtt KendraRole.Arn
+
+  KendraRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: kendra.amazonaws.com
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
+      Policies:
+        - PolicyName: KendraS3Access
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:ListBucket
+                Resource:
+                  - !GetAtt ChatLogsBucket.Arn
+                  - !Sub '${ChatLogsBucket.Arn}/*'
+
+  # CloudWatch Log Group
+  ApplicationLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/automotive-contact-center
+      RetentionInDays: 30
+
+  # Amazon Lex Bot
+  LexBot:
+    Type: AWS::Lex::Bot
+    Properties:
+      Name: AutomotiveContactCenterBot
+      RoleArn: !GetAtt LexBotRole.Arn
+      DataPrivacy:
+        ChildDirected: false
+      IdleSessionTTLInSeconds: 300
+
+  LexBotRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lexv2.amazonaws.com
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonLexRunBotsOnly
+
+Outputs:
+  ApiEndpoint:
+    Description: API Gateway endpoint URL
+    Value: !Sub 'https://${ContactCenterApi}.execute-api.${AWS::Region}.amazonaws.com/prod/'
+  
+  WebSocketEndpoint:
+    Description: WebSocket API endpoint
+    Value: !Sub 'wss://${WebSocketApi}.execute-api.${AWS::Region}.amazonaws.com/prod'
+  
+  DynamoDBTable:
+    Description: DynamoDB table name
+    Value: !Ref CustomerDataTable
+  
+  S3Bucket:
+    Description: S3 bucket for chat logs
+    Value: !Ref ChatLogsBucket
+  
+  KendraIndexId:
+    Description: Kendra index ID
+    Value: !Ref KendraIndex
