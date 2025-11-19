@@ -260,6 +260,23 @@ document.getElementById('message-input').addEventListener('keypress', (e) => {
   }
 });
 
+// Toggle suggestions bar
+function toggleSuggestions() {
+  const suggestionsBar = document.getElementById('suggestions');
+  const toggleIcon = document.getElementById('toggle-icon');
+  const toggleText = document.getElementById('toggle-text');
+  
+  if (suggestionsBar.classList.contains('collapsed')) {
+    suggestionsBar.classList.remove('collapsed');
+    toggleIcon.textContent = '▼';
+    toggleText.textContent = 'Hide';
+  } else {
+    suggestionsBar.classList.add('collapsed');
+    toggleIcon.textContent = '▲';
+    toggleText.textContent = 'Show';
+  }
+}
+
 connectWebSocket();
 
 // ========================================
