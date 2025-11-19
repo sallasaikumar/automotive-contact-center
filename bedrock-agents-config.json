@@ -1,0 +1,49 @@
+{
+  "supervisorAgent": {
+    "agentName": "automotive-supervisor-agent",
+    "agentResourceRoleArn": "arn:aws:iam::ACCOUNT_ID:role/AmazonBedrockExecutionRoleForAgents",
+    "foundationModel": "anthropic.claude-v2",
+    "instruction": "You are the Supervisor Agent for an automotive intelligent contact center. Orchestrate multiple specialized agents to handle customer inquiries about vehicle service, sales, warranty, and technical support. Ensure SLA compliance and route requests appropriately.",
+    "idleSessionTTLInSeconds": 600,
+    "agentCollaboration": "SUPERVISOR"
+  },
+  "strandAgents": [
+    {
+      "agentName": "intent-analysis-strand",
+      "foundationModel": "anthropic.claude-v2",
+      "instruction": "Analyze customer messages to detect intent (service, sales, warranty, technical, general). Extract entities and classify urgency. Return structured intent data.",
+      "agentCollaboration": "SUPERVISOR_ROUTER"
+    },
+    {
+      "agentName": "sentiment-analysis-strand",
+      "foundationModel": "anthropic.claude-v2",
+      "instruction": "Analyze customer sentiment and emotional tone. Detect urgency, frustration, satisfaction. Return sentiment score and urgency level.",
+      "agentCollaboration": "SUPERVISOR_ROUTER"
+    },
+    {
+      "agentName": "knowledge-retrieval-strand",
+      "foundationModel": "anthropic.claude-v2",
+      "instruction": "Search automotive knowledge base for relevant information about services, products, warranties, and technical issues. Return accurate, contextual information.",
+      "agentCollaboration": "SUPERVISOR_ROUTER",
+      "knowledgeBaseId": "KNOWLEDGE_BASE_ID"
+    },
+    {
+      "agentName": "personalization-strand",
+      "foundationModel": "anthropic.claude-v2",
+      "instruction": "Access customer profile, vehicle details, and service history. Provide personalized recommendations and context-aware responses.",
+      "agentCollaboration": "SUPERVISOR_ROUTER"
+    },
+    {
+      "agentName": "response-generation-strand",
+      "foundationModel": "anthropic.claude-v2",
+      "instruction": "Generate natural, empathetic responses based on intent, sentiment, knowledge, and customer context. Adapt tone appropriately and provide actionable next steps.",
+      "agentCollaboration": "SUPERVISOR_ROUTER"
+    },
+    {
+      "agentName": "routing-strand",
+      "foundationModel": "anthropic.claude-v2",
+      "instruction": "Route customer inquiries to appropriate departments (Service, Sales, Warranty, Technical Support). Assign priority levels and handle escalations.",
+      "agentCollaboration": "SUPERVISOR_ROUTER"
+    }
+  ]
+}

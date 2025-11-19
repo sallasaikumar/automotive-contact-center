@@ -3,60 +3,264 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Automotive Intelligent Contact Center</title>
+  <title>Automotive AI Contact Center | Powered by Multi-Agent Intelligence</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <div class="chat-header">
-      <div class="header-content">
-        <h1>🚗 Automotive Contact Center</h1>
-        <div class="status">
-          <span class="status-indicator" id="status"></span>
+  <!-- Hero Section -->
+  <div class="hero-banner">
+    <div class="hero-content">
+      <div class="logo-section">
+        <div class="logo-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <path d="M20 5L35 12.5V27.5L20 35L5 27.5V12.5L20 5Z" stroke="currentColor" stroke-width="2" fill="none"/>
+            <circle cx="20" cy="20" r="6" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <h1>Automotive AI Assistant</h1>
+          <p>Powered by Multi-Agent Intelligence</p>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">7</span>
+          <span class="stat-label">AI Agents</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">24/7</span>
+          <span class="stat-label">Available</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="response-time">< 500ms</span>
+          <span class="stat-label">Response Time</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <!-- Sidebar with Agent Status -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h3>🤖 Active Agents</h3>
+        <div class="connection-status">
+          <span class="status-dot" id="status"></span>
           <span id="status-text">Connecting...</span>
+        </div>
+      </div>
+      
+      <div class="agents-list">
+        <div class="agent-card" data-agent="supervisor">
+          <div class="agent-icon">👨‍💼</div>
+          <div class="agent-info">
+            <h4>Supervisor</h4>
+            <p>Orchestration</p>
+          </div>
+          <div class="agent-status active"></div>
+        </div>
+        
+        <div class="agent-card" data-agent="intent">
+          <div class="agent-icon">🎯</div>
+          <div class="agent-info">
+            <h4>Intent Analysis</h4>
+            <p>Understanding</p>
+          </div>
+          <div class="agent-status active"></div>
+        </div>
+        
+        <div class="agent-card" data-agent="sentiment">
+          <div class="agent-icon">😊</div>
+          <div class="agent-info">
+            <h4>Sentiment</h4>
+            <p>Emotion Detection</p>
+          </div>
+          <div class="agent-status active"></div>
+        </div>
+        
+        <div class="agent-card" data-agent="routing">
+          <div class="agent-icon">🔀</div>
+          <div class="agent-info">
+            <h4>Routing</h4>
+            <p>Smart Direction</p>
+          </div>
+          <div class="agent-status active"></div>
+        </div>
+        
+        <div class="agent-card" data-agent="knowledge">
+          <div class="agent-icon">📚</div>
+          <div class="agent-info">
+            <h4>Knowledge</h4>
+            <p>Information Retrieval</p>
+          </div>
+          <div class="agent-status active"></div>
+        </div>
+        
+        <div class="agent-card" data-agent="personalization">
+          <div class="agent-icon">👤</div>
+          <div class="agent-info">
+            <h4>Personalization</h4>
+            <p>Custom Experience</p>
+          </div>
+          <div class="agent-status active"></div>
+        </div>
+        
+        <div class="agent-card" data-agent="response">
+          <div class="agent-icon">💬</div>
+          <div class="agent-info">
+            <h4>Response Gen</h4>
+            <p>Smart Replies</p>
+          </div>
+          <div class="agent-status active"></div>
         </div>
       </div>
     </div>
 
-    <div class="chat-container">
-      <div class="messages" id="messages">
-        <div class="message bot-message">
-          <div class="message-content">
-            <strong>AI Assistant</strong>
-            <p>Welcome to our Automotive Intelligent Contact Center! I'm here to help you with service appointments, vehicle information, warranty questions, and more. How can I assist you today?</p>
+    <!-- Main Chat Area -->
+    <div class="chat-section">
+      <div class="chat-header-bar">
+        <div class="current-agent-info">
+          <div class="agent-avatar">🤖</div>
+          <div>
+            <h3>AI Assistant</h3>
+            <p class="agent-subtitle">Multi-Agent System Active</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="icon-btn" title="Voice Input">🎤</button>
+          <button class="icon-btn" title="Settings">⚙️</button>
+        </div>
+      </div>
+
+      <div class="messages-container" id="messages">
+        <div class="welcome-card">
+          <div class="welcome-icon">👋</div>
+          <h2>Welcome to Automotive AI Assistant</h2>
+          <p>I'm powered by 7 specialized AI agents working together to provide you with the best automotive support experience.</p>
+          <div class="capabilities-grid">
+            <div class="capability-item">
+              <span class="capability-icon">🔧</span>
+              <span>Service Scheduling</span>
+            </div>
+            <div class="capability-item">
+              <span class="capability-icon">🚗</span>
+              <span>Vehicle Sales</span>
+            </div>
+            <div class="capability-item">
+              <span class="capability-icon">📋</span>
+              <span>Warranty Info</span>
+            </div>
+            <div class="capability-item">
+              <span class="capability-icon">⚡</span>
+              <span>Technical Support</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="suggestions" id="suggestions">
-        <button class="suggestion-btn" onclick="sendSuggestion('I need to schedule a service appointment')">Schedule Service</button>
-        <button class="suggestion-btn" onclick="sendSuggestion('My check engine light is on')">Check Engine Light</button>
-        <button class="suggestion-btn" onclick="sendSuggestion('What models do you have available?')">Browse Models</button>
-        <button class="suggestion-btn" onclick="sendSuggestion('Check my warranty status')">Warranty Info</button>
-      </div>
-
-      <div class="quick-actions" id="quick-actions"></div>
-
-      <div class="input-container">
-        <input 
-          type="text" 
-          id="message-input" 
-          placeholder="Type your message..." 
-          autocomplete="off"
-        >
-        <button id="send-btn" onclick="sendMessage()">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
-          </svg>
+      <div class="suggestions-bar" id="suggestions">
+        <div class="suggestions-label">Quick Actions:</div>
+        <button class="suggestion-chip" onclick="sendSuggestion('I need to schedule a service appointment')">
+          <span class="chip-icon">📅</span> Schedule Service
+        </button>
+        <button class="suggestion-chip" onclick="sendSuggestion('My check engine light is on')">
+          <span class="chip-icon">⚠️</span> Check Engine Light
+        </button>
+        <button class="suggestion-chip" onclick="sendSuggestion('What models do you have available?')">
+          <span class="chip-icon">🚙</span> Browse Models
+        </button>
+        <button class="suggestion-chip" onclick="sendSuggestion('Check my warranty status')">
+          <span class="chip-icon">🛡️</span> Warranty Info
         </button>
       </div>
+
+      <div class="quick-actions-bar" id="quick-actions"></div>
+
+      <div class="input-area">
+        <div class="input-wrapper">
+          <button class="input-icon-btn" title="Attach file">📎</button>
+          <input 
+            type="text" 
+            id="message-input" 
+            placeholder="Type your message or ask a question..." 
+            autocomplete="off"
+          >
+          <button class="input-icon-btn" title="Emoji">😊</button>
+          <button id="send-btn" class="send-button" onclick="sendMessage()">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M18 2L9 11M18 2l-6 16-3-7-7-3 16-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        <div class="input-hint">
+          <span class="hint-icon">💡</span>
+          <span>Tip: Ask about service, sales, warranty, or technical support</span>
+        </div>
+      </div>
     </div>
 
-    <div class="metadata-panel" id="metadata-panel">
-      <h3>Agent Insights</h3>
-      <div id="metadata-content"></div>
+    <!-- Right Panel - Analytics -->
+    <div class="analytics-panel" id="analytics-panel">
+      <div class="panel-header">
+        <h3>📊 Live Analytics</h3>
+        <button class="minimize-btn">−</button>
+      </div>
+      
+      <div class="analytics-content">
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon">🎯</span>
+            <span class="metric-title">Intent Detected</span>
+          </div>
+          <div class="metric-value" id="intent-value">—</div>
+          <div class="metric-bar">
+            <div class="metric-fill" id="intent-confidence"></div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon">😊</span>
+            <span class="metric-title">Sentiment</span>
+          </div>
+          <div class="metric-value" id="sentiment-value">—</div>
+          <div class="sentiment-indicator" id="sentiment-indicator"></div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon">🔀</span>
+            <span class="metric-title">Routed To</span>
+          </div>
+          <div class="metric-value" id="route-value">—</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon">⚡</span>
+            <span class="metric-title">Processing Time</span>
+          </div>
+          <div class="metric-value" id="processing-time">—</div>
+        </div>
+
+        <div class="agent-activity">
+          <h4>Agent Activity</h4>
+          <div class="activity-timeline" id="activity-timeline"></div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- Floating Action Button -->
+  <button class="fab" title="New Conversation">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+  </button>
 
   <script src="app.js"></script>
 </body>

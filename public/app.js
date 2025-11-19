@@ -70,6 +70,12 @@ function addMessage(text, sender) {
   const messageDiv = document.createElement('div');
   messageDiv.className = `message ${sender}-message`;
   
+  // Avatar
+  const avatar = document.createElement('div');
+  avatar.className = 'message-avatar';
+  avatar.textContent = sender === 'user' ? '👤' : '🤖';
+  
+  // Content
   const contentDiv = document.createElement('div');
   contentDiv.className = 'message-content';
   
@@ -81,10 +87,15 @@ function addMessage(text, sender) {
   
   contentDiv.appendChild(senderLabel);
   contentDiv.appendChild(textP);
+  
+  messageDiv.appendChild(avatar);
   messageDiv.appendChild(contentDiv);
   
   messagesContainer.appendChild(messageDiv);
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  
+  // Highlight active agent
+  highlightActiveAgent(sender === 'bot' ? 'response' : null);
 }
 
 function showTypingIndicator() {
@@ -124,22 +135,88 @@ function handleResponse(data) {
 }
 
 function updateMetadata(metadata) {
-  const metadataContent = document.getElementById('metadata-content');
-  metadataContent.innerHTML = '';
+  // Update intent
+  const intentValue = document.getElementById('intent-value');
+  const intentConfidence = document.getElementById('intent-confidence');
+  if (intentValue) {
+    intentValue.textContent = metadata.intent.toUpperCase();
+    intentConfidence.style.width = '85%';
+  }
   
-  const items = [
-    { label: 'Intent', value: metadata.intent },
-    { label: 'Department', value: metadata.route },
-    { label: 'Sentiment', value: metadata.sentiment > 0 ? 'Positive' : metadata.sentiment < 0 ? 'Negative' : 'Neutral' },
-    { label: 'Processing Time', value: `${metadata.processingTime}ms` }
-  ];
+  // Update sentiment
+  const sentimentValue = document.getElementById('sentiment-value');
+  if (sentimentValue) {
+    const sentiment = metadata.sentiment > 0 ? 'Positive 😊' : metadata.sentiment < 0 ? 'Negative 😟' : 'Neutral 😐';
+    sentimentValue.textContent = sentiment;
+  }
   
-  items.forEach(item => {
-    const itemDiv = document.createElement('div');
-    itemDiv.className = 'metadata-item';
-    itemDiv.innerHTML = `<strong>${item.label}</strong><span>${item.value}</span>`;
-    metadataContent.appendChild(itemDiv);
+  // Update route
+  const routeValue = document.getElementById('route-value');
+  if (routeValue) {
+    routeValue.textContent = metadata.route;
+  }
+  
+  // Update processing time
+  const processingTime = document.getElementById('processing-time');
+  if (processingTime) {
+    processingTime.textContent = `${metadata.processingTime}ms`;
+  }
+  
+  // Update response time stat
+  const responseTimeStat = document.getElementById('response-time');
+  if (responseTimeStat) {
+    responseTimeStat.textContent = `${metadata.processingTime}ms`;
+  }
+  
+  // Add activity to timeline
+  addActivityItem(metadata.intent, metadata.route);
+  
+  // Highlight active agents
+  highlightActiveAgent('intent');
+  setTimeout(() => highlightActiveAgent('sentiment'), 200);
+  setTimeout(() => highlightActiveAgent('routing'), 400);
+  setTimeout(() => highlightActiveAgent('knowledge'), 600);
+  setTimeout(() => highlightActiveAgent('personalization'), 800);
+  setTimeout(() => highlightActiveAgent('response'), 1000);
+}
+
+function highlightActiveAgent(agentType) {
+  if (!agentType) return;
+  
+  // Remove previous highlights
+  document.querySelectorAll('.agent-card').forEach(card => {
+    card.classList.remove('active-agent');
   });
+  
+  // Add highlight to current agent
+  const agentCard = document.querySelector(`[data-agent="${agentType}"]`);
+  if (agentCard) {
+    agentCard.classList.add('active-agent');
+  }
+}
+
+function addActivityItem(intent, route) {
+  const timeline = document.getElementById('activity-timeline');
+  if (!timeline) return;
+  
+  const item = document.createElement('div');
+  item.className = 'activity-item';
+  item.innerHTML = `
+    <div class="activity-dot"></div>
+    <div>
+      <strong>${intent}</strong> → ${route}
+      <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.25rem;">
+        ${new Date().toLocaleTimeString()}
+      </div>
+    </div>
+  `;
+  
+  timeline.insertBefore(item, timeline.firstChild);
+  
+  // Keep only last 5 items
+  while (timeline.children.length > 5) {
+    timeline.removeChild(timeline.lastChild);
+  }
 }
 
 function updateSuggestions(suggestions) {

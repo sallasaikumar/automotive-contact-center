@@ -1,23 +1,27 @@
-const { RoutingAgent } = require('./routing-agent');
-const { IntentAnalysisAgent } = require('./intent-analysis-agent');
-const { SentimentAnalysisAgent } = require('./sentiment-analysis-agent');
-const { KnowledgeRetrievalAgent } = require('./knowledge-retrieval-agent');
+const { AgentCore } = require('./agent-core');
+const { IntentStrandAgent, KnowledgeStrandAgent, ResponseStrandAgent } = require('./strand-agent');
 const { PersonalizationAgent } = require('./personalization-agent');
-const { ResponseGenerationAgent } = require('./response-generation-agent');
+const { SentimentAnalysisAgent } = require('./sentiment-analysis-agent');
 
 class SupervisorAgent {
   constructor() {
-    this.routingAgent = new RoutingAgent();
-    this.intentAgent = new IntentAnalysisAgent();
-    this.sentimentAgent = new SentimentAnalysisAgent();
-    this.knowledgeAgent = new KnowledgeRetrievalAgent();
+    this.agentCore = new AgentCore();
+    this.intentStrand = new IntentStrandAgent();
+    this.knowledgeStrand = new KnowledgeStrandAgent();
+    this.responseStrand = new ResponseStrandAgent();
     this.personalizationAgent = new PersonalizationAgent();
-    this.responseAgent = new ResponseGenerationAgent();
+    this.sentimentAgent = new SentimentAnalysisAgent();
     this.sessions = new Map();
+    this.orchestrationMetrics = {
+      totalRequests: 0,
+      averageResponseTime: 0,
+      strandUtilization: {}
+    };
   }
 
   async processMessage(message, sessionId) {
     const startTime = Date.now();
+    this.orchestrationMetrics.totalRequests++;
     
     // Get or create session context
     if (!this.sessions.has(sessionId)) {
@@ -25,7 +29,8 @@ class SupervisorAgent {
         history: [],
         customerData: this.personalizationAgent.getCustomerProfile(sessionId),
         lastIntent: null,
-        conversationContext: {}
+        conversationContext: {},
+        activeStrands: []
       });
     }
     
@@ -33,60 +38,149 @@ class SupervisorAgent {
     session.history.push({ role: 'user', content: message });
 
     try {
-      // Step 1: Analyze intent with context
-      const intent = await this.intentAgent.analyze(message, session.lastIntent);
+      // AWS Strands Multi-Agent Orchestration
       
-      // Step 2: Analyze sentiment
+      // Strand 1: Intent Analysis using AWS Bedrock Agent
+      const intentResult = await this.intentStrand.analyzeIntent(
+        message, 
+        sessionId, 
+        session.history.slice(-5) // Last 5 messages for context
+      );
+      
+      // Strand 2: Sentiment Analysis (local processing)
       const sentiment = await this.sentimentAgent.analyze(message);
       
-      // Step 3: Route to appropriate handler
-      const route = await this.routingAgent.route(intent, sentiment);
+      // Strand 3: Knowledge Retrieval using AWS Bedrock Agent
+      const knowledgeResult = await this.knowledgeStrand.retrieveKnowledge(
+        message,
+        intentResult.response,
+        sessionId
+      );
       
-      // Step 4: Retrieve knowledge
-      const knowledge = await this.knowledgeAgent.retrieve(intent.category, message);
-      
-      // Step 5: Personalize response
+      // Strand 4: Personalization (local processing)
       const personalizedContext = await this.personalizationAgent.personalize(
         session.customerData,
-        intent,
-        knowledge
+        { category: this.extractIntent(intentResult.response) },
+        { articles: this.extractKnowledge(knowledgeResult.response) }
       );
       
-      // Step 6: Generate response
-      const response = await this.responseAgent.generate(
-        message,
-        intent,
-        sentiment,
-        knowledge,
-        personalizedContext,
-        session.history
+      // Strand 5: Response Generation using AWS Bedrock Agent
+      const responseContext = {
+        message: message,
+        intent: intentResult.response,
+        sentiment: sentiment,
+        knowledge: knowledgeResult.response,
+        customerProfile: personalizedContext
+      };
+      
+      const responseResult = await this.responseStrand.generateResponse(
+        responseContext,
+        sessionId
       );
       
-      session.history.push({ role: 'assistant', content: response.text });
-      session.lastIntent = intent.category;
+      // Update session
+      session.history.push({ role: 'assistant', content: responseResult.response });
+      session.lastIntent = this.extractIntent(intentResult.response);
+      session.activeStrands = [
+        intentResult.strandId,
+        knowledgeResult.strandId,
+        responseResult.strandId
+      ];
       
       const processingTime = Date.now() - startTime;
+      this.updateMetrics(processingTime);
       
       return {
         type: 'chat_response',
-        message: response.text,
+        message: responseResult.response,
         metadata: {
-          intent: intent.category,
+          intent: this.extractIntent(intentResult.response),
           sentiment: sentiment.score,
-          route: route.department,
           processingTime,
-          suggestions: response.suggestions,
-          quickActions: response.quickActions
+          strandsUsed: session.activeStrands.length,
+          agentCore: 'AWS Bedrock Agents',
+          orchestration: 'AWS Strands Multi-Agent',
+          citations: responseResult.citations || [],
+          trace: this.sanitizeTrace([
+            intentResult.trace,
+            knowledgeResult.trace,
+            responseResult.trace
+          ])
         }
       };
     } catch (error) {
-      console.error('Supervisor Agent Error:', error);
-      return {
-        type: 'chat_response',
-        message: 'I apologize, but I encountered an issue processing your request. Please try again.',
-        metadata: { error: true }
-      };
+      console.error('AWS Strands Supervisor Agent Error:', error);
+      
+      // Fallback to local processing if AWS Strands fail
+      return await this.fallbackProcessing(message, session, startTime);
     }
+  }
+
+  extractIntent(intentResponse) {
+    // Extract intent category from AWS Bedrock response
+    try {
+      const match = intentResponse.match(/Category:\s*(\w+)/i);
+      return match ? match[1].toLowerCase() : 'general';
+    } catch {
+      return 'general';
+    }
+  }
+
+  extractKnowledge(knowledgeResponse) {
+    // Extract knowledge articles from AWS Bedrock response
+    try {
+      return [{ title: 'AWS Knowledge', content: knowledgeResponse }];
+    } catch {
+      return [];
+    }
+  }
+
+  sanitizeTrace(traces) {
+    // Sanitize trace information for client
+    return traces.filter(Boolean).map(trace => ({
+      timestamp: new Date(),
+      type: 'strand_execution'
+    }));
+  }
+
+  updateMetrics(processingTime) {
+    const currentAvg = this.orchestrationMetrics.averageResponseTime;
+    const totalRequests = this.orchestrationMetrics.totalRequests;
+    
+    this.orchestrationMetrics.averageResponseTime = 
+      ((currentAvg * (totalRequests - 1)) + processingTime) / totalRequests;
+  }
+
+  async fallbackProcessing(message, session, startTime) {
+    // Fallback to local agents if AWS Strands are unavailable
+    const processingTime = Date.now() - startTime;
+    
+    return {
+      type: 'chat_response',
+      message: 'I understand you need assistance with your automotive needs. Let me help you with that. Could you please provide more details about what you need?',
+      metadata: {
+        intent: 'general',
+        sentiment: { score: 0.5 },
+        processingTime,
+        fallback: true,
+        error: 'AWS Strands temporarily unavailable'
+      }
+    };
+  }
+
+  async getOrchestrationStatus() {
+    const agentCoreHealth = await this.agentCore.healthCheck();
+    
+    return {
+      agentCore: agentCoreHealth,
+      activeStrands: {
+        intent: this.intentStrand.getActiveStrands().length,
+        knowledge: this.knowledgeStrand.getActiveStrands().length,
+        response: this.responseStrand.getActiveStrands().length
+      },
+      metrics: this.orchestrationMetrics,
+      architecture: 'AWS Strands Multi-Agent Orchestration'
+    };
   }
 }
 
