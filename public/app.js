@@ -534,6 +534,117 @@ demoButton.onclick = () => {
 };
 document.body.appendChild(demoButton);
 
+// Demo Helper Overlay
+let demoHelperVisible = false;
+
+function createDemoHelper() {
+  const helper = document.createElement('div');
+  helper.id = 'demo-helper';
+  helper.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.95);
+    color: white;
+    padding: 2rem;
+    border-radius: 16px;
+    max-width: 600px;
+    z-index: 10000;
+    display: none;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  `;
+  
+  helper.innerHTML = `
+    <h2 style="margin-bottom: 1rem; color: #3b82f6;">🎬 Demo Helper</h2>
+    <div style="line-height: 1.8;">
+      <p style="margin-bottom: 1rem;"><strong>Real-Time Data Points to Highlight:</strong></p>
+      <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+        <li>👤 Customer profile fetching</li>
+        <li>🚗 Vehicle telemetry data</li>
+        <li>📚 Knowledge base search</li>
+        <li>😊 Sentiment analysis</li>
+        <li>🎯 Intent classification</li>
+        <li>🔀 Department routing</li>
+        <li>⚡ Sub-500ms processing</li>
+      </ul>
+      <p style="margin-bottom: 1rem;"><strong>Demo Messages:</strong></p>
+      <ol style="margin-left: 1.5rem; margin-bottom: 1rem;">
+        <li>"My check engine light is on" - Technical</li>
+        <li>"I want to buy a new SUV" - Sales</li>
+        <li>"Is my transmission covered?" - Warranty</li>
+      </ol>
+      <p style="margin-bottom: 1rem;"><strong>Keyboard Shortcuts:</strong></p>
+      <ul style="margin-left: 1.5rem;">
+        <li><code style="background: #374151; padding: 0.25rem 0.5rem; border-radius: 4px;">Ctrl+D</code> - Start auto-demo</li>
+        <li><code style="background: #374151; padding: 0.25rem 0.5rem; border-radius: 4px;">Ctrl+H</code> - Toggle this helper</li>
+      </ul>
+    </div>
+    <button onclick="toggleDemoHelper()" style="
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    ">Close</button>
+  `;
+  
+  document.body.appendChild(helper);
+}
+
+function toggleDemoHelper() {
+  const helper = document.getElementById('demo-helper');
+  if (!helper) {
+    createDemoHelper();
+    return;
+  }
+  
+  demoHelperVisible = !demoHelperVisible;
+  helper.style.display = demoHelperVisible ? 'block' : 'none';
+}
+
+// Keyboard shortcut for demo helper
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.key === 'h') {
+    e.preventDefault();
+    toggleDemoHelper();
+  }
+});
+
+// Create demo helper on load
+createDemoHelper();
+
+// Add helper button
+const helperButton = document.createElement('button');
+helperButton.textContent = '❓ Demo Help';
+helperButton.style.cssText = `
+  position: fixed;
+  bottom: 170px;
+  right: 20px;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  z-index: 1000;
+  transition: all 0.3s;
+`;
+helperButton.onmouseover = () => {
+  helperButton.style.transform = 'scale(1.05)';
+};
+helperButton.onmouseout = () => {
+  helperButton.style.transform = 'scale(1)';
+};
+helperButton.onclick = toggleDemoHelper;
+document.body.appendChild(helperButton);
+
 console.log('🚀 Real-time demo features loaded!');
 console.log('💡 Press Ctrl+D to start auto-demo mode');
+console.log('💡 Press Ctrl+H to show demo helper');
 console.log('💡 Click "Start Demo" button for automatic demonstration');
