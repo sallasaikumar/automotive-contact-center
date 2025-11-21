@@ -32,6 +32,73 @@ app.get('/health', async (req, res) => {
   }
 });
 
+// Enhanced API endpoints for new features
+
+// Cockpit Assistant API
+app.post('/api/cockpit/command', async (req, res) => {
+  try {
+    const { command, sessionId } = req.body;
+    const response = await supervisorAgent.handleCockpitCommand(command, sessionId || 'cockpit-session');
+    res.json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Product Recommendation API
+app.post('/api/recommendations', async (req, res) => {
+  try {
+    const { context, sessionId } = req.body;
+    const response = await supervisorAgent.handleProductRecommendation(context, sessionId || 'rec-session');
+    res.json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// CDH Insights API
+app.get('/api/insights/:customerId', async (req, res) => {
+  try {
+    const { customerId } = req.params;
+    const response = await supervisorAgent.handleCDHInsights(customerId);
+    res.json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Marketing Campaign API
+app.post('/api/marketing/campaign', async (req, res) => {
+  try {
+    const { campaignType, targetAudience, objectives } = req.body;
+    const response = await supervisorAgent.handleMarketingCampaign(campaignType, targetAudience, objectives);
+    res.json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Interactive Service Booking API
+app.post('/api/service/book', async (req, res) => {
+  try {
+    const { customerId, vehicleInfo, sessionId } = req.body;
+    const response = await supervisorAgent.handleServiceBooking(customerId, vehicleInfo, sessionId || 'service-session');
+    res.json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Enhanced metrics endpoint
+app.get('/api/metrics/enhanced', async (req, res) => {
+  try {
+    const metrics = await supervisorAgent.getEnhancedMetrics();
+    res.json(metrics);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // API endpoint for testing
 app.post('/api/chat', async (req, res) => {
   try {

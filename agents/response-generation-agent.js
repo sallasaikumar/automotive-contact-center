@@ -12,20 +12,16 @@ class ResponseGenerationAgent {
     }
     
     // Add personalized greeting for first message
-    if (history.length <= 1) {
+    if (history.length <= 1 && personalizedContext.greeting) {
       responseText += `${personalizedContext.greeting}! `;
     }
     
-    // Add knowledge-based response
-    if (knowledge.length > 0) {
-      responseText += knowledge[0].content + ' ';
-    } else {
-      responseText += 'I\'m here to help you with your automotive needs. ';
-    }
+    // Generate intent-specific response
+    responseText += this.generateIntentResponse(intent, message, knowledge, personalizedContext);
     
     // Add personalized recommendations
-    if (personalizedContext.recommendations.length > 0) {
-      responseText += personalizedContext.recommendations.join(' ') + ' ';
+    if (personalizedContext.recommendations && personalizedContext.recommendations.length > 0) {
+      responseText += ' ' + personalizedContext.recommendations.join(' ');
     }
     
     // Generate quick actions based on intent
@@ -37,6 +33,103 @@ class ResponseGenerationAgent {
       quickActions,
       suggestions
     };
+  }
+
+  generateIntentResponse(intent, message, knowledge, personalizedContext) {
+    const category = intent.category;
+    
+    console.log('Generating response for category:', category);
+    console.log('Knowledge available:', knowledge.articles ? knowledge.articles.length : 0);
+    
+    // Use knowledge if available and relevant
+    if (knowledge.articles && knowledge.articles.length > 0) {
+      const article = knowledge.articles[0];
+      console.log('Using knowledge article:', article.topic);
+      
+      // Create a contextual response using the knowledge
+      let response = article.content;
+      
+      // Add personalization if available
+      if (personalizedContext.vehicleInfo) {
+        const vehicle = personalizedContext.vehicleInfo;
+        const vehicleStr = `${vehicle.year} ${vehicle.make} ${vehicle.model}`;
+        response = `For your ${vehicleStr}, ${response.charAt(0).toLowerCase()}${response.slice(1)}`;
+      }
+      
+      // Add additional details if available
+      if (article.estimatedCost) {
+        response += ` The estimated cost is ${article.estimatedCost}.`;
+      }
+      if (article.duration) {
+        response += ` This typically takes ${article.duration}.`;
+      }
+      if (article.availability) {
+        response += ` We're available ${article.availability}.`;
+      }
+      
+      return response;
+    }
+    
+    // Generate category-specific responses if no knowledge found
+    const responses = {
+      service: this.generateServiceResponse(intent, personalizedContext),
+      sales: this.generateSalesResponse(intent, personalizedContext),
+      warranty: this.generateWarrantyResponse(intent, personalizedContext),
+      technical: this.generateTechnicalResponse(intent, personalizedContext),
+      general: this.generateGeneralResponse(intent, personalizedContext)
+    };
+    
+    const response = responses[category] || responses.general;
+    console.log('Generated response:', response.substring(0, 50) + '...');
+    
+    return response;
+  }
+
+  generateServiceResponse(intent, context) {
+    const vehicleStr = context.vehicleInfo ? `${context.vehicleInfo.year} ${context.vehicleInfo.make} ${context.vehicleInfo.model}` : 'vehicle';
+    const responses = [
+      `I can help you schedule a service appointment for your ${vehicleStr}. What type of service do you need?`,
+      `Let me assist you with your service needs. When would you like to schedule your appointment?`,
+      `I'd be happy to help with your vehicle service. What specific service are you looking for?`
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+
+  generateSalesResponse(intent, context) {
+    const responses = [
+      `I can help you explore our vehicle inventory. What type of vehicle are you interested in?`,
+      `Great! Let me help you find the perfect vehicle. Are you looking for a new or used vehicle?`,
+      `I'd be happy to assist with your vehicle purchase. What features are most important to you?`
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+
+  generateWarrantyResponse(intent, context) {
+    const vehicleStr = context.vehicleInfo ? `${context.vehicleInfo.year} ${context.vehicleInfo.make} ${context.vehicleInfo.model}` : 'vehicle';
+    const responses = [
+      `I can help you with warranty information for your ${vehicleStr}. What specific warranty question do you have?`,
+      `Let me assist you with your warranty inquiry. What would you like to know?`,
+      `I'd be happy to help with warranty details. Are you asking about coverage or filing a claim?`
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+
+  generateTechnicalResponse(intent, context) {
+    const responses = [
+      `I can help you with technical support. What issue are you experiencing?`,
+      `Let me assist you with that technical question. Can you describe the problem in more detail?`,
+      `I'd be happy to help troubleshoot. What specific technical issue are you facing?`
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+
+  generateGeneralResponse(intent, context) {
+    const responses = [
+      `I understand you need assistance with your automotive needs. Let me help you with that. Could you please provide more details about what you need?`,
+      `How can I help you today? I can assist with service, sales, warranty, or technical questions.`,
+      `I'd be happy to help. What information are you looking for?`
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
   }
 
   generateQuickActions(category) {

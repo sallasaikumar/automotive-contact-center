@@ -648,3 +648,648 @@ console.log('🚀 Real-time demo features loaded!');
 console.log('💡 Press Ctrl+D to start auto-demo mode');
 console.log('💡 Press Ctrl+H to show demo helper');
 console.log('💡 Click "Start Demo" button for automatic demonstration');
+
+
+// ============================================
+// ENHANCED FEATURES - REAL-TIME DATA FETCHING
+// ============================================
+
+let metricsInterval;
+let activityLog = [];
+
+// Start real-time metrics updates
+function startRealTimeMetrics() {
+  // Update metrics every 2 seconds
+  metricsInterval = setInterval(async () => {
+    try {
+      const response = await fetch('/api/metrics/enhanced');
+      const metrics = await response.json();
+      updateMetricsDisplay(metrics);
+    } catch (error) {
+      console.error('Error fetching metrics:', error);
+    }
+  }, 2000);
+}
+
+function updateMetricsDisplay(metrics) {
+  // Update agent count
+  const agentCount = document.getElementById('agent-count');
+  if (agentCount) {
+    agentCount.textContent = metrics.totalFeatures || 12;
+    animateNumber(agentCount);
+  }
+
+  // Update total requests
+  const totalRequests = document.getElementById('total-requests');
+  if (totalRequests && metrics.orchestrationMetrics) {
+    totalRequests.textContent = metrics.orchestrationMetrics.totalRequests || 0;
+    animateNumber(totalRequests);
+  }
+
+  // Update response time
+  const responseTime = document.getElementById('response-time');
+  if (responseTime && metrics.orchestrationMetrics) {
+    const avgTime = Math.round(metrics.orchestrationMetrics.averageResponseTime || 0);
+    responseTime.textContent = avgTime > 0 ? `${avgTime}ms` : '< 500ms';
+  }
+
+  // Update enhanced agent status
+  if (metrics.advancedFeatures) {
+    updateEnhancedAgentStatus('cockpit', metrics.advancedFeatures.cockpitCommands);
+    updateEnhancedAgentStatus('recommendation', metrics.advancedFeatures.recommendations);
+    updateEnhancedAgentStatus('insights', metrics.advancedFeatures.insights);
+    updateEnhancedAgentStatus('marketing', metrics.advancedFeatures.campaigns);
+    updateEnhancedAgentStatus('servicing', metrics.advancedFeatures.serviceBookings);
+  }
+}
+
+function updateEnhancedAgentStatus(agentName, count) {
+  const agentCard = document.querySelector(`.agent-card[data-agent="${agentName}"]`);
+  if (agentCard) {
+    const statusDot = agentCard.querySelector('.agent-status');
+    if (count > 0) {
+      statusDot.classList.remove('standby');
+      statusDot.classList.add('active');
+    }
+  }
+}
+
+function animateNumber(element) {
+  element.style.transform = 'scale(1.1)';
+  setTimeout(() => {
+    element.style.transform = 'scale(1)';
+  }, 200);
+}
+
+// ============================================
+// COCKPIT ASSISTANT FEATURE
+// ============================================
+
+async function testCockpitFeature() {
+  showFeatureLoading('cockpit');
+  addActivityLog('🎙️ Cockpit Assistant', 'Processing voice command...');
+  
+  try {
+    const response = await fetch('/api/cockpit/command', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        command: 'Navigate to downtown',
+        sessionId: sessionId
+      })
+    });
+    
+    const data = await response.json();
+    displayCockpitResponse(data);
+    addActivityLog('🎙️ Cockpit Assistant', 'Command executed successfully');
+  } catch (error) {
+    console.error('Cockpit error:', error);
+    addActivityLog('🎙️ Cockpit Assistant', 'Error: ' + error.message);
+  }
+}
+
+function displayCockpitResponse(data) {
+  const messagesContainer = document.getElementById('messages');
+  
+  const messageDiv = document.createElement('div');
+  messageDiv.className = 'message assistant-message feature-message';
+  messageDiv.innerHTML = `
+    <div class="message-avatar">🎙️</div>
+    <div class="message-content">
+      <div class="feature-badge">Cockpit Assistant</div>
+      <div class="message-text">${data.response}</div>
+      ${data.data ? `
+        <div class="feature-data">
+          <div class="data-item">
+            <span class="data-label">Destination:</span>
+            <span class="data-value">${data.data.destination}</span>
+          </div>
+          <div class="data-item">
+            <span class="data-label">ETA:</span>
+            <span class="data-value">${data.data.eta}</span>
+          </div>
+          <div class="data-item">
+            <span class="data-label">Distance:</span>
+            <span class="data-value">${data.data.distance}</span>
+          </div>
+          <div class="data-item">
+            <span class="data-label">Traffic:</span>
+            <span class="data-value traffic-${data.data.traffic}">${data.data.traffic}</span>
+          </div>
+        </div>
+      ` : ''}
+      <div class="message-time">${new Date().toLocaleTimeString()}</div>
+    </div>
+  `;
+  
+  messagesContainer.appendChild(messageDiv);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  
+  // Animate agent card
+  animateAgentCard('cockpit');
+}
+
+// ============================================
+// PRODUCT RECOMMENDATIONS FEATURE
+// ============================================
+
+async function testRecommendations() {
+  showFeatureLoading('recommendation');
+  addActivityLog('🎯 Recommendations', 'Analyzing preferences...');
+  
+  try {
+    const response = await fetch('/api/recommendations', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        context: {
+          intent: 'purchase',
+          budget: 40000,
+          familySize: 4,
+          lifestyle: 'family'
+        },
+        sessionId: sessionId
+      })
+    });
+    
+    const data = await response.json();
+    displayRecommendations(data);
+    addActivityLog('🎯 Recommendations', `Found ${data.recommendations.vehicles.length} matches`);
+  } catch (error) {
+    console.error('Recommendations error:', error);
+    addActivityLog('🎯 Recommendations', 'Error: ' + error.message);
+  }
+}
+
+function displayRecommendations(data) {
+  const messagesContainer = document.getElementById('messages');
+  
+  const messageDiv = document.createElement('div');
+  messageDiv.className = 'message assistant-message feature-message';
+  
+  let vehiclesHTML = '';
+  if (data.recommendations.vehicles && data.recommendations.vehicles.length > 0) {
+    vehiclesHTML = data.recommendations.vehicles.map(vehicle => `
+      <div class="recommendation-card">
+        <div class="rec-header">
+          <span class="rec-name">${vehicle.name}</span>
+          <span class="rec-match">${vehicle.matchPercentage}% Match</span>
+        </div>
+        <div class="rec-price">$${vehicle.price.toLocaleString()}</div>
+        <div class="rec-reason">${vehicle.reason}</div>
+        <div class="rec-features">
+          ${vehicle.features.slice(0, 3).map(f => `<span class="feature-tag">${f}</span>`).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  messageDiv.innerHTML = `
+    <div class="message-avatar">🎯</div>
+    <div class="message-content">
+      <div class="feature-badge">AI Recommendations</div>
+      <div class="message-text">Based on your preferences, here are my top recommendations:</div>
+      <div class="recommendations-grid">
+        ${vehiclesHTML}
+      </div>
+      <div class="confidence-bar">
+        <span>Confidence: ${Math.round((data.confidence || 0.85) * 100)}%</span>
+        <div class="bar"><div class="fill" style="width: ${(data.confidence || 0.85) * 100}%"></div></div>
+      </div>
+      <div class="message-time">${new Date().toLocaleTimeString()}</div>
+    </div>
+  `;
+  
+  messagesContainer.appendChild(messageDiv);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  
+  animateAgentCard('recommendation');
+}
+
+// ============================================
+// CDH INSIGHTS FEATURE
+// ============================================
+
+async function testInsights() {
+  showFeatureLoading('insights');
+  addActivityLog('📊 CDH Insights', 'Generating analytics...');
+  
+  try {
+    const response = await fetch('/api/insights/customer123');
+    const data = await response.json();
+    displayInsights(data);
+    addActivityLog('📊 CDH Insights', 'Insights generated successfully');
+  } catch (error) {
+    console.error('Insights error:', error);
+    addActivityLog('📊 CDH Insights', 'Error: ' + error.message);
+  }
+}
+
+function displayInsights(data) {
+  const messagesContainer = document.getElementById('messages');
+  
+  const insights = data.insights.insights;
+  const messageDiv = document.createElement('div');
+  messageDiv.className = 'message assistant-message feature-message';
+  
+  messageDiv.innerHTML = `
+    <div class="message-avatar">📊</div>
+    <div class="message-content">
+      <div class="feature-badge">CDH Insights</div>
+      <div class="message-text">Customer Data Hub Analysis Complete</div>
+      
+      <div class="insights-grid">
+        <div class="insight-card">
+          <div class="insight-icon">📈</div>
+          <div class="insight-label">Engagement Level</div>
+          <div class="insight-value">${Math.round(insights.behavioral.engagementLevel * 100)}%</div>
+          <div class="insight-bar">
+            <div class="fill" style="width: ${insights.behavioral.engagementLevel * 100}%"></div>
+          </div>
+        </div>
+        
+        <div class="insight-card">
+          <div class="insight-icon">💎</div>
+          <div class="insight-label">Lifetime Value</div>
+          <div class="insight-value">$${insights.lifetime.projected.toLocaleString()}</div>
+          <div class="insight-sub">Projected</div>
+        </div>
+        
+        <div class="insight-card">
+          <div class="insight-icon">🎯</div>
+          <div class="insight-label">Loyalty Status</div>
+          <div class="insight-value">${insights.behavioral.loyaltyIndicator}</div>
+          <div class="insight-sub">High Value Customer</div>
+        </div>
+        
+        <div class="insight-card">
+          <div class="insight-icon">⭐</div>
+          <div class="insight-label">Satisfaction</div>
+          <div class="insight-value">${insights.behavioral.satisfactionScore}/5</div>
+          <div class="insight-sub">Rating</div>
+        </div>
+      </div>
+      
+      ${insights.recommendations && insights.recommendations.length > 0 ? `
+        <div class="recommendations-section">
+          <h4>💡 Recommended Actions:</h4>
+          ${insights.recommendations.slice(0, 2).map(rec => `
+            <div class="action-item priority-${rec.priority}">
+              <span class="priority-badge">${rec.priority}</span>
+              <span class="action-text">${rec.insight}</span>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+      
+      <div class="message-time">${new Date().toLocaleTimeString()}</div>
+    </div>
+  `;
+  
+  messagesContainer.appendChild(messageDiv);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  
+  animateAgentCard('insights');
+}
+
+// ============================================
+// SERVICE BOOKING FEATURE
+// ============================================
+
+async function testServiceBooking() {
+  showFeatureLoading('servicing');
+  addActivityLog('🔧 Service Booking', 'Checking vehicle status...');
+  
+  try {
+    const response = await fetch('/api/service/book', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        customerId: sessionId,
+        vehicleInfo: {
+          make: 'Toyota',
+          model: 'Camry',
+          year: 2022,
+          mileage: 15000,
+          lastService: '2024-10-15'
+        },
+        sessionId: sessionId
+      })
+    });
+    
+    const data = await response.json();
+    displayServiceBooking(data);
+    addActivityLog('🔧 Service Booking', 'Service options ready');
+  } catch (error) {
+    console.error('Service booking error:', error);
+    addActivityLog('🔧 Service Booking', 'Error: ' + error.message);
+  }
+}
+
+function displayServiceBooking(data) {
+  const messagesContainer = document.getElementById('messages');
+  
+  const messageDiv = document.createElement('div');
+  messageDiv.className = 'message assistant-message feature-message';
+  
+  messageDiv.innerHTML = `
+    <div class="message-avatar">🔧</div>
+    <div class="message-content">
+      <div class="feature-badge">Interactive Servicing</div>
+      <div class="message-text">${data.message}</div>
+      
+      ${data.options && data.options.recommendations && data.options.recommendations.length > 0 ? `
+        <div class="service-recommendations">
+          <h4>🔍 Recommended Services:</h4>
+          ${data.options.recommendations.map(rec => `
+            <div class="service-card priority-${rec.priority}">
+              <div class="service-header">
+                <span class="service-name">${rec.name}</span>
+                <span class="service-price">$${rec.price}</span>
+              </div>
+              <div class="service-reason">${rec.reason}</div>
+              <div class="service-meta">
+                <span>⏱️ ${rec.duration} min</span>
+                <span class="priority-badge">${rec.priority} priority</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+      
+      ${data.options && data.options.quickActions ? `
+        <div class="quick-actions-grid">
+          ${data.options.quickActions.map(action => `
+            <button class="action-button">
+              <span>${action.icon}</span>
+              <span>${action.label}</span>
+            </button>
+          `).join('')}
+        </div>
+      ` : ''}
+      
+      <div class="message-time">${new Date().toLocaleTimeString()}</div>
+    </div>
+  `;
+  
+  messagesContainer.appendChild(messageDiv);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  
+  animateAgentCard('servicing');
+}
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+function showFeatureLoading(featureName) {
+  const agentCard = document.querySelector(`.agent-card[data-agent="${featureName}"]`);
+  if (agentCard) {
+    const statusDot = agentCard.querySelector('.agent-status');
+    statusDot.classList.remove('standby');
+    statusDot.classList.add('processing');
+    
+    setTimeout(() => {
+      statusDot.classList.remove('processing');
+      statusDot.classList.add('active');
+    }, 1000);
+  }
+}
+
+function animateAgentCard(agentName) {
+  const agentCard = document.querySelector(`.agent-card[data-agent="${agentName}"]`);
+  if (agentCard) {
+    agentCard.style.transform = 'scale(1.05)';
+    agentCard.style.boxShadow = '0 4px 20px rgba(59, 130, 246, 0.3)';
+    
+    setTimeout(() => {
+      agentCard.style.transform = 'scale(1)';
+      agentCard.style.boxShadow = '';
+    }, 500);
+  }
+}
+
+function addActivityLog(agent, message) {
+  const timeline = document.getElementById('activity-timeline');
+  if (!timeline) return;
+  
+  const activity = document.createElement('div');
+  activity.className = 'activity-item fade-in';
+  activity.innerHTML = `
+    <div class="activity-time">${new Date().toLocaleTimeString()}</div>
+    <div class="activity-agent">${agent}</div>
+    <div class="activity-message">${message}</div>
+  `;
+  
+  timeline.insertBefore(activity, timeline.firstChild);
+  
+  // Keep only last 10 activities
+  while (timeline.children.length > 10) {
+    timeline.removeChild(timeline.lastChild);
+  }
+}
+
+// ============================================
+// AUTO-DEMO MODE
+// ============================================
+
+let demoMode = false;
+let demoInterval;
+
+function startAutoDemo() {
+  if (demoMode) return;
+  
+  demoMode = true;
+  const features = [
+    { name: 'Cockpit', func: testCockpitFeature },
+    { name: 'Recommendations', func: testRecommendations },
+    { name: 'Insights', func: testInsights },
+    { name: 'Service', func: testServiceBooking }
+  ];
+  
+  let index = 0;
+  
+  demoInterval = setInterval(() => {
+    const feature = features[index];
+    console.log(`Auto-demo: Testing ${feature.name}...`);
+    feature.func();
+    
+    index = (index + 1) % features.length;
+  }, 8000); // Run each feature every 8 seconds
+  
+  console.log('🎬 Auto-demo mode started! Features will cycle automatically.');
+}
+
+function stopAutoDemo() {
+  if (demoInterval) {
+    clearInterval(demoInterval);
+    demoMode = false;
+    console.log('🛑 Auto-demo mode stopped.');
+  }
+}
+
+// Add keyboard shortcut for demo mode
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.key === 'd') {
+    e.preventDefault();
+    if (demoMode) {
+      stopAutoDemo();
+    } else {
+      startAutoDemo();
+    }
+  }
+});
+
+// ============================================
+// INITIALIZATION
+// ============================================
+
+// Start real-time metrics when page loads
+document.addEventListener('DOMContentLoaded', () => {
+  startRealTimeMetrics();
+  
+  // Add demo mode button
+  const heroContent = document.querySelector('.hero-content');
+  if (heroContent) {
+    const demoButton = document.createElement('button');
+    demoButton.className = 'demo-mode-btn';
+    demoButton.innerHTML = '🎬 Start Auto-Demo';
+    demoButton.onclick = () => {
+      if (demoMode) {
+        stopAutoDemo();
+        demoButton.innerHTML = '🎬 Start Auto-Demo';
+      } else {
+        startAutoDemo();
+        demoButton.innerHTML = '🛑 Stop Auto-Demo';
+      }
+    };
+    heroContent.appendChild(demoButton);
+  }
+  
+  console.log('✨ Enhanced features loaded!');
+  console.log('💡 Press Ctrl+D to toggle auto-demo mode');
+  console.log('🎯 Click feature chips to test individual features');
+});
+
+// Clean up on page unload
+window.addEventListener('beforeunload', () => {
+  if (metricsInterval) clearInterval(metricsInterval);
+  if (demoInterval) clearInterval(demoInterval);
+});
+
+
+// ============================================
+// CUSTOMER SELECTION FEATURE
+// ============================================
+
+let currentCustomerId = 'CUST001'; // Default customer
+
+function selectCustomer(customerId) {
+  currentCustomerId = customerId;
+  sessionId = customerId; // Use customer ID as session ID for personalization
+  
+  // Update UI
+  document.querySelectorAll('.customer-chip').forEach(chip => {
+    chip.classList.remove('active');
+  });
+  
+  const selectedChip = document.querySelector(`[data-customer="${customerId}"]`);
+  if (selectedChip) {
+    selectedChip.classList.add('active');
+  }
+  
+  // Show notification
+  const customerNames = {
+    'CUST001': 'John Smith (Toyota Camry 2022)',
+    'CUST002': 'Sarah Johnson (Tesla Model 3 2023)',
+    'CUST003': 'Michael Chen (Ford F-150 2021)'
+  };
+  
+  showNotification(`👤 Switched to: ${customerNames[customerId]}`);
+  
+  // Clear chat history
+  const messagesContainer = document.getElementById('messages');
+  messagesContainer.innerHTML = `
+    <div class="welcome-card">
+      <div class="welcome-icon">👋</div>
+      <h2>Welcome ${customerNames[customerId].split('(')[0]}</h2>
+      <p>I'm your AI assistant. I have access to your vehicle information and service history. How can I help you today?</p>
+      <div class="capabilities-grid">
+        <div class="capability-item">
+          <span class="capability-icon">🔧</span>
+          <span>Service Scheduling</span>
+        </div>
+        <div class="capability-item">
+          <span class="capability-icon">🚗</span>
+          <span>Vehicle Sales</span>
+        </div>
+        <div class="capability-item">
+          <span class="capability-icon">📋</span>
+          <span>Warranty Info</span>
+        </div>
+        <div class="capability-item">
+          <span class="capability-icon">⚡</span>
+          <span>Technical Support</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Helper functions for enhanced features
+function showFeatureLoading(featureName) {
+  const agentCard = document.querySelector(`[data-agent="${featureName}"]`);
+  if (agentCard) {
+    const statusDot = agentCard.querySelector('.agent-status');
+    statusDot.classList.remove('standby');
+    statusDot.classList.add('processing');
+  }
+}
+
+function animateAgentCard(agentName) {
+  const agentCard = document.querySelector(`[data-agent="${agentName}"]`);
+  if (agentCard) {
+    agentCard.style.animation = 'flash 0.5s';
+    setTimeout(() => {
+      agentCard.style.animation = '';
+      const statusDot = agentCard.querySelector('.agent-status');
+      statusDot.classList.remove('processing');
+      statusDot.classList.add('active');
+    }, 500);
+  }
+}
+
+function addActivityLog(agent, message) {
+  activityLog.push({
+    agent,
+    message,
+    timestamp: new Date()
+  });
+  
+  // Keep only last 10 items
+  if (activityLog.length > 10) {
+    activityLog.shift();
+  }
+  
+  updateActivityTimeline();
+}
+
+function updateActivityTimeline() {
+  const timeline = document.getElementById('activity-timeline');
+  if (!timeline) return;
+  
+  timeline.innerHTML = activityLog.slice().reverse().map(item => `
+    <div class="activity-item">
+      <div class="activity-time">${item.timestamp.toLocaleTimeString()}</div>
+      <div class="activity-agent">${item.agent}</div>
+      <div class="activity-message">${item.message}</div>
+    </div>
+  `).join('');
+}
+
+// Start real-time metrics on load
+startRealTimeMetrics();
+
+console.log('✅ Enhanced features loaded successfully!');
+console.log('👤 Customer selector ready');
+console.log('🎯 All 12 agents active');

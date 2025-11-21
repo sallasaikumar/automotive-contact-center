@@ -8,8 +8,9 @@ This application demonstrates an intelligent contact center system that uses mul
 
 ## 🏗️ Architecture
 
-### Multi-Agent System
+### Multi-Agent System (12 Specialized Agents)
 
+#### Core Agents (7)
 1. **Supervisor Agent** - Orchestrates all agents, manages workflow, ensures SLA compliance
 2. **Intent Analysis Agent** - NLP-based intent detection (service, sales, warranty, technical, general)
 3. **Sentiment Analysis Agent** - Detects tone, urgency, and emotional state
@@ -17,6 +18,13 @@ This application demonstrates an intelligent contact center system that uses mul
 5. **Knowledge Retrieval Agent** - Fetches relevant information from comprehensive knowledge base
 6. **Personalization Agent** - Tailors responses using customer profile and vehicle data
 7. **Response Generation Agent** - Crafts contextual responses with quick actions
+
+#### Enhanced Agents (5 New!)
+8. **Cockpit Assistant Agent** - Voice-activated in-vehicle control (navigation, climate, entertainment, concierge)
+9. **Product Recommendation Agent** - AI-powered vehicle, accessory, and service recommendations
+10. **CDH Insights Agent** - Customer data analytics with predictive insights and lifetime value
+11. **Generative Marketing Agent** - Automated campaign creation across email, social, and ads
+12. **Interactive Servicing Agent** - End-to-end service booking with real-time tracking
 
 ### Technology Stack
 
@@ -49,11 +57,88 @@ npm start
 
 Open http://localhost:3000
 
+### Test Enhanced Features
+
+```bash
+node test-enhanced-features.js
+```
+
+This will test all 6 new enhanced features:
+- ✅ Intelligent Cockpit Assistant
+- ✅ AI Product Recommendations
+- ✅ CDH Insights Generator
+- ✅ Generative Marketing
+- ✅ Interactive Servicing
+- ✅ Enhanced Metrics
+
 ### Test Single Message
 
 ```bash
 npm run test:single "My check engine light is on"
 ```
+
+## 🌟 Enhanced Features
+
+### 1. Intelligent Cockpit Assistant & Concierge
+Voice-activated in-vehicle AI assistant providing:
+- 🗺️ Navigation with real-time traffic
+- 🌡️ Climate control
+- 🎵 Entertainment management
+- 🚗 Vehicle status monitoring
+- 🏨 Concierge services (restaurants, parking, hotels)
+
+**API:** `POST /api/cockpit/command`
+
+### 2. AI-Powered Product Recommendations
+Intelligent recommendation engine for:
+- 🚙 Vehicle matching (budget, lifestyle, family size)
+- 🛠️ Accessories and add-ons
+- 🔧 Service packages
+- 💰 Financing options
+
+**API:** `POST /api/recommendations`
+
+### 3. CDH Insights Generator
+Customer Data Hub with predictive analytics:
+- 📊 Behavioral analysis
+- 🔮 Predictive modeling (service due, churn risk)
+- 🎯 Customer segmentation
+- 💎 Lifetime value calculation
+- 💡 Actionable recommendations
+
+**API:** `GET /api/insights/:customerId`
+
+### 4. Generative Marketing
+AI-powered campaign creation:
+- 📧 Email campaigns
+- 📱 Social media content
+- 📢 Ad copy (search, display, video)
+- 🌐 Landing pages
+- 🧪 A/B testing variants
+
+**API:** `POST /api/marketing/campaign`
+
+### 5. Interactive Vehicle Servicing
+End-to-end service booking system:
+- 📅 Smart scheduling
+- 🔍 Service recommendations
+- 💰 Transparent pricing
+- 📍 Real-time tracking
+- 💬 Interactive Q&A
+- 🎁 Post-service follow-up
+
+**API:** `POST /api/service/book`
+
+### 6. Enhanced Metrics Dashboard
+Comprehensive analytics:
+- Feature utilization tracking
+- Performance metrics
+- Customer engagement stats
+- ROI measurement
+
+**API:** `GET /api/metrics/enhanced`
+
+📖 **Full Documentation:** See `ENHANCED_FEATURES_GUIDE.md` for complete details
 
 ## 📊 Sample Data
 

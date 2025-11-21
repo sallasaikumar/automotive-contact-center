@@ -37,9 +37,13 @@ class KnowledgeRetrievalAgent {
     };
   }
 
-  async retrieve(category, query) {
+  async retrieve(query, intent) {
+    // Handle both old and new calling patterns
+    const category = typeof intent === 'string' ? intent : (intent?.category || 'general');
+    const searchQuery = query || '';
+    
     const categoryKnowledge = this.knowledgeBase[category] || [];
-    const lowerQuery = query.toLowerCase();
+    const lowerQuery = searchQuery.toLowerCase();
     
     // Score each knowledge item based on relevance
     const scoredKnowledge = categoryKnowledge.map(item => {
@@ -47,7 +51,7 @@ class KnowledgeRetrievalAgent {
       const queryWords = lowerQuery.split(' ');
       
       // Check topic match
-      if (lowerQuery.includes(item.topic.toLowerCase())) {
+      if (item.topic && lowerQuery.includes(item.topic.toLowerCase())) {
         score += 10;
       }
       
@@ -71,7 +75,14 @@ class KnowledgeRetrievalAgent {
       .filter(item => item.score > 0)
       .sort((a, b) => b.score - a.score);
     
-    return sortedKnowledge.length > 0 ? sortedKnowledge.slice(0, 3) : categoryKnowledge.slice(0, 2);
+    const articles = sortedKnowledge.length > 0 ? sortedKnowledge.slice(0, 3) : categoryKnowledge.slice(0, 2);
+    
+    // Return in expected format
+    return {
+      articles: articles,
+      category: category,
+      relevanceScore: articles.length > 0 ? articles[0].score : 0
+    };
   }
 }
 

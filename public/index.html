@@ -27,7 +27,7 @@
       </div>
       <div class="hero-stats">
         <div class="stat-item">
-          <span class="stat-number">7</span>
+          <span class="stat-number" id="agent-count">12</span>
           <span class="stat-label">AI Agents</span>
         </div>
         <div class="stat-item">
@@ -37,6 +37,10 @@
         <div class="stat-item">
           <span class="stat-number" id="response-time">< 500ms</span>
           <span class="stat-label">Response Time</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="total-requests">0</span>
+          <span class="stat-label">Requests</span>
         </div>
       </div>
     </div>
@@ -117,6 +121,59 @@
           <div class="agent-status active"></div>
         </div>
       </div>
+
+      <div class="sidebar-divider"></div>
+      
+      <div class="sidebar-header">
+        <h3>✨ Enhanced Features</h3>
+      </div>
+      
+      <div class="agents-list">
+        <div class="agent-card enhanced" data-agent="cockpit">
+          <div class="agent-icon">🎙️</div>
+          <div class="agent-info">
+            <h4>Cockpit Assistant</h4>
+            <p>Voice Control</p>
+          </div>
+          <div class="agent-status standby"></div>
+        </div>
+        
+        <div class="agent-card enhanced" data-agent="recommendation">
+          <div class="agent-icon">🎯</div>
+          <div class="agent-info">
+            <h4>Recommendations</h4>
+            <p>AI Suggestions</p>
+          </div>
+          <div class="agent-status standby"></div>
+        </div>
+        
+        <div class="agent-card enhanced" data-agent="insights">
+          <div class="agent-icon">📊</div>
+          <div class="agent-info">
+            <h4>CDH Insights</h4>
+            <p>Analytics</p>
+          </div>
+          <div class="agent-status standby"></div>
+        </div>
+        
+        <div class="agent-card enhanced" data-agent="marketing">
+          <div class="agent-icon">📧</div>
+          <div class="agent-info">
+            <h4>Marketing</h4>
+            <p>Campaigns</p>
+          </div>
+          <div class="agent-status standby"></div>
+        </div>
+        
+        <div class="agent-card enhanced" data-agent="servicing">
+          <div class="agent-icon">🔧</div>
+          <div class="agent-info">
+            <h4>Servicing</h4>
+            <p>Booking</p>
+          </div>
+          <div class="agent-status standby"></div>
+        </div>
+      </div>
     </div>
 
     <!-- Main Chat Area -->
@@ -139,7 +196,7 @@
         <div class="welcome-card">
           <div class="welcome-icon">👋</div>
           <h2>Welcome to Automotive AI Assistant</h2>
-          <p>I'm powered by 7 specialized AI agents working together to provide you with the best automotive support experience.</p>
+          <p>I'm powered by 12 specialized AI agents working together to provide you with the best automotive support experience.</p>
           <div class="capabilities-grid">
             <div class="capability-item">
               <span class="capability-icon">🔧</span>
@@ -157,6 +214,89 @@
               <span class="capability-icon">⚡</span>
               <span>Technical Support</span>
             </div>
+            <div class="capability-item">
+              <span class="capability-icon">🎙️</span>
+              <span>Voice Control</span>
+            </div>
+            <div class="capability-item">
+              <span class="capability-icon">🎯</span>
+              <span>Smart Recommendations</span>
+            </div>
+            <div class="capability-item">
+              <span class="capability-icon">📊</span>
+              <span>Customer Insights</span>
+            </div>
+            <div class="capability-item">
+              <span class="capability-icon">📧</span>
+              <span>Marketing Campaigns</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sample Customer Profile Card -->
+        <div class="info-card customer-profile">
+          <div class="card-header">
+            <span class="card-icon">👤</span>
+            <h3>Your Profile</h3>
+          </div>
+          <div class="profile-details">
+            <div class="profile-row">
+              <span class="label">Customer:</span>
+              <span class="value">John Smith</span>
+            </div>
+            <div class="profile-row">
+              <span class="label">Vehicle:</span>
+              <span class="value">2022 Toyota Camry</span>
+            </div>
+            <div class="profile-row">
+              <span class="label">Mileage:</span>
+              <span class="value">15,420 miles</span>
+            </div>
+            <div class="profile-row">
+              <span class="label">Warranty:</span>
+              <span class="value badge-active">Active</span>
+            </div>
+            <div class="profile-row">
+              <span class="label">Last Service:</span>
+              <span class="value">45 days ago</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Start Guide -->
+        <div class="info-card quick-start">
+          <div class="card-header">
+            <span class="card-icon">🚀</span>
+            <h3>Quick Start Guide</h3>
+          </div>
+          <div class="quick-start-content">
+            <p><strong>Try these sample queries:</strong></p>
+            <div class="sample-queries">
+              <button class="query-btn" onclick="sendSuggestion('I need an oil change appointment')">
+                🔧 "I need an oil change appointment"
+              </button>
+              <button class="query-btn" onclick="sendSuggestion('My check engine light is on and it\'s urgent')">
+                ⚠️ "My check engine light is on and it's urgent"
+              </button>
+              <button class="query-btn" onclick="sendSuggestion('What SUV models do you have available?')">
+                🚙 "What SUV models do you have available?"
+              </button>
+              <button class="query-btn" onclick="sendSuggestion('Is my transmission covered under warranty?')">
+                🛡️ "Is my transmission covered under warranty?"
+              </button>
+              <button class="query-btn" onclick="sendSuggestion('Tell me about electric vehicles')">
+                ⚡ "Tell me about electric vehicles"
+              </button>
+              <button class="query-btn" onclick="sendSuggestion('Navigate to nearest gas station')">
+                🎙️ "Navigate to nearest gas station" (Cockpit)
+              </button>
+              <button class="query-btn" onclick="sendSuggestion('Recommend a vehicle for my family')">
+                🎯 "Recommend a vehicle for my family"
+              </button>
+              <button class="query-btn" onclick="sendSuggestion('Book a service appointment')">
+                📅 "Book a service appointment"
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -165,18 +305,61 @@
         <button class="suggestions-toggle" onclick="toggleSuggestions()">
           <span id="toggle-icon">▼</span> <span id="toggle-text">Hide</span>
         </button>
-        <div class="suggestions-label">Quick Actions:</div>
-        <button class="suggestion-chip" onclick="sendSuggestion('I need to schedule a service appointment')">
-          <span class="chip-icon">📅</span> Schedule Service
+        <div class="suggestions-label">🔥 Try These:</div>
+        <button class="suggestion-chip" onclick="sendSuggestion('I need an oil change for my Toyota Camry')">
+          <span class="chip-icon">🔧</span> Oil Change
         </button>
-        <button class="suggestion-chip" onclick="sendSuggestion('My check engine light is on')">
-          <span class="chip-icon">⚠️</span> Check Engine Light
+        <button class="suggestion-chip" onclick="sendSuggestion('My check engine light is on and it\\'s urgent!')">
+          <span class="chip-icon">⚠️</span> Check Engine
         </button>
-        <button class="suggestion-chip" onclick="sendSuggestion('What models do you have available?')">
-          <span class="chip-icon">🚙</span> Browse Models
+        <button class="suggestion-chip" onclick="sendSuggestion('What SUV models do you have?')">
+          <span class="chip-icon">🚙</span> Browse SUVs
         </button>
-        <button class="suggestion-chip" onclick="sendSuggestion('Check my warranty status')">
-          <span class="chip-icon">🛡️</span> Warranty Info
+        <button class="suggestion-chip" onclick="sendSuggestion('Is my transmission covered under warranty?')">
+          <span class="chip-icon">🛡️</span> Warranty
+        </button>
+        <button class="suggestion-chip" onclick="sendSuggestion('Tell me about electric vehicles')">
+          <span class="chip-icon">⚡</span> EVs
+        </button>
+        <button class="suggestion-chip" onclick="sendSuggestion('What are your service hours?')">
+          <span class="chip-icon">🕐</span> Hours
+        </button>
+        <button class="suggestion-chip" onclick="sendSuggestion('Schedule a test drive')">
+          <span class="chip-icon">🏁</span> Test Drive
+        </button>
+        <button class="suggestion-chip" onclick="sendSuggestion('When is my next service due?')">
+          <span class="chip-icon">📅</span> Service Due
+        </button>
+      </div>
+
+      <!-- Customer Profile Selector -->
+      <div class="customer-selector-bar" id="customer-selector">
+        <div class="features-label">👤 Test as Customer:</div>
+        <button class="customer-chip active" onclick="selectCustomer('CUST001')" data-customer="CUST001">
+          <span class="chip-icon">👨</span> John Smith<br><small>Toyota Camry 2022</small>
+        </button>
+        <button class="customer-chip" onclick="selectCustomer('CUST002')" data-customer="CUST002">
+          <span class="chip-icon">👩</span> Sarah Johnson<br><small>Tesla Model 3 2023</small>
+        </button>
+        <button class="customer-chip" onclick="selectCustomer('CUST003')" data-customer="CUST003">
+          <span class="chip-icon">👨</span> Michael Chen<br><small>Ford F-150 2021</small>
+        </button>
+      </div>
+
+      <!-- Enhanced Features Bar -->
+      <div class="enhanced-features-bar" id="enhanced-features">
+        <div class="features-label">✨ Enhanced Features:</div>
+        <button class="feature-chip" onclick="testCockpitFeature()">
+          <span class="chip-icon">🎙️</span> Cockpit Assistant
+        </button>
+        <button class="feature-chip" onclick="testRecommendations()">
+          <span class="chip-icon">🎯</span> Get Recommendations
+        </button>
+        <button class="feature-chip" onclick="testInsights()">
+          <span class="chip-icon">📊</span> View Insights
+        </button>
+        <button class="feature-chip" onclick="testServiceBooking()">
+          <span class="chip-icon">🔧</span> Book Service
         </button>
       </div>
 
