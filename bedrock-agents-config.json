@@ -1,8 +1,7 @@
 {
   "supervisorAgent": {
     "agentName": "automotive-supervisor-agent",
-    "agentResourceRoleArn": "arn:aws:iam::ACCOUNT_ID:role/AmazonBedrockExecutionRoleForAgents",
-    "foundationModel": "anthropic.claude-v2",
+    "foundationModel": "anthropic.claude-3-sonnet-20240229-v1:0",
     "instruction": "You are the Supervisor Agent for an automotive intelligent contact center. Orchestrate multiple specialized agents to handle customer inquiries about vehicle service, sales, warranty, and technical support. Ensure SLA compliance and route requests appropriately.",
     "idleSessionTTLInSeconds": 600,
     "agentCollaboration": "SUPERVISOR"
@@ -10,39 +9,68 @@
   "strandAgents": [
     {
       "agentName": "intent-analysis-strand",
-      "foundationModel": "anthropic.claude-v2",
+      "foundationModel": "anthropic.claude-3-sonnet-20240229-v1:0",
       "instruction": "Analyze customer messages to detect intent (service, sales, warranty, technical, general). Extract entities and classify urgency. Return structured intent data.",
       "agentCollaboration": "SUPERVISOR_ROUTER"
     },
     {
       "agentName": "sentiment-analysis-strand",
-      "foundationModel": "anthropic.claude-v2",
+      "foundationModel": "anthropic.claude-3-sonnet-20240229-v1:0",
       "instruction": "Analyze customer sentiment and emotional tone. Detect urgency, frustration, satisfaction. Return sentiment score and urgency level.",
       "agentCollaboration": "SUPERVISOR_ROUTER"
     },
     {
       "agentName": "knowledge-retrieval-strand",
-      "foundationModel": "anthropic.claude-v2",
+      "foundationModel": "anthropic.claude-3-sonnet-20240229-v1:0",
       "instruction": "Search automotive knowledge base for relevant information about services, products, warranties, and technical issues. Return accurate, contextual information.",
-      "agentCollaboration": "SUPERVISOR_ROUTER",
-      "knowledgeBaseId": "KNOWLEDGE_BASE_ID"
+      "agentCollaboration": "SUPERVISOR_ROUTER"
     },
     {
       "agentName": "personalization-strand",
-      "foundationModel": "anthropic.claude-v2",
+      "foundationModel": "anthropic.claude-3-sonnet-20240229-v1:0",
       "instruction": "Access customer profile, vehicle details, and service history. Provide personalized recommendations and context-aware responses.",
       "agentCollaboration": "SUPERVISOR_ROUTER"
     },
     {
       "agentName": "response-generation-strand",
-      "foundationModel": "anthropic.claude-v2",
+      "foundationModel": "anthropic.claude-3-sonnet-20240229-v1:0",
       "instruction": "Generate natural, empathetic responses based on intent, sentiment, knowledge, and customer context. Adapt tone appropriately and provide actionable next steps.",
       "agentCollaboration": "SUPERVISOR_ROUTER"
     },
     {
       "agentName": "routing-strand",
-      "foundationModel": "anthropic.claude-v2",
+      "foundationModel": "anthropic.claude-3-sonnet-20240229-v1:0",
       "instruction": "Route customer inquiries to appropriate departments (Service, Sales, Warranty, Technical Support). Assign priority levels and handle escalations.",
+      "agentCollaboration": "SUPERVISOR_ROUTER"
+    },
+    {
+      "agentName": "cockpit-assistant-strand",
+      "foundationModel": "anthropic.claude-3-sonnet-20240229-v1:0",
+      "instruction": "Provide in-vehicle cockpit assistance for navigation, entertainment, climate control, and vehicle diagnostics. Handle voice commands and provide contextual help.",
+      "agentCollaboration": "SUPERVISOR_ROUTER"
+    },
+    {
+      "agentName": "generative-marketing-strand",
+      "foundationModel": "anthropic.claude-3-sonnet-20240229-v1:0",
+      "instruction": "Generate personalized marketing content, promotional offers, and product recommendations based on customer profile and vehicle data.",
+      "agentCollaboration": "SUPERVISOR_ROUTER"
+    },
+    {
+      "agentName": "interactive-servicing-strand",
+      "foundationModel": "anthropic.claude-3-sonnet-20240229-v1:0",
+      "instruction": "Handle service appointments, maintenance reminders, warranty claims, and technical support. Provide step-by-step troubleshooting guidance.",
+      "agentCollaboration": "SUPERVISOR_ROUTER"
+    },
+    {
+      "agentName": "product-recommendation-strand",
+      "foundationModel": "anthropic.claude-3-sonnet-20240229-v1:0",
+      "instruction": "Recommend automotive products, accessories, and services based on customer needs, vehicle type, and usage patterns.",
+      "agentCollaboration": "SUPERVISOR_ROUTER"
+    },
+    {
+      "agentName": "cdh-insights-strand",
+      "foundationModel": "anthropic.claude-3-sonnet-20240229-v1:0",
+      "instruction": "Analyze customer data hub insights to provide predictive analytics, usage patterns, and proactive recommendations for vehicle maintenance and services.",
       "agentCollaboration": "SUPERVISOR_ROUTER"
     }
   ]

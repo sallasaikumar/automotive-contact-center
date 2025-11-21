@@ -1,0 +1,158 @@
+{
+  "timestamp": "2025-11-21T14:25:36.917Z",
+  "status": {
+    "infrastructure": {
+      "coreFiles": {
+        "server.js": true,
+        "package.json": true,
+        "agents/supervisor-agent.js": true,
+        "agents/agent-core.js": true,
+        "agents/strand-agent.js": true
+      },
+      "agentFiles": {
+        "intent-analysis-agent.js": true,
+        "sentiment-analysis-agent.js": true,
+        "routing-agent.js": true,
+        "knowledge-retrieval-agent.js": true,
+        "personalization-agent.js": true,
+        "response-generation-agent.js": true,
+        "cockpit-assistant-agent.js": true,
+        "product-recommendation-agent.js": true,
+        "cdh-insights-agent.js": true,
+        "generative-marketing-agent.js": true,
+        "interactive-servicing-agent.js": true
+      },
+      "totalAgents": 11,
+      "deployedAgents": 11
+    },
+    "agents": {
+      "supervisor": {
+        "status": "functional",
+        "responseTime": 203,
+        "mode": "local-agents",
+        "fallback": true
+      },
+      "orchestration": {
+        "agentCore": {
+          "status": "unhealthy",
+          "error": "UnknownError"
+        },
+        "activeStrands": {
+          "intent": 1,
+          "knowledge": 0,
+          "response": 0
+        },
+        "metrics": {
+          "totalRequests": 1,
+          "averageResponseTime": 0,
+          "strandUtilization": {},
+          "advancedFeatures": {
+            "cockpitCommands": 0,
+            "recommendations": 0,
+            "insights": 0,
+            "campaigns": 0,
+            "serviceBookings": 0
+          }
+        },
+        "architecture": "AWS Strands Multi-Agent Orchestration"
+      }
+    },
+    "services": {},
+    "deployment": {
+      "checks": {
+        "coreInfrastructure": true,
+        "environmentConfig": false,
+        "agentFunctionality": true,
+        "packageDependencies": true,
+        "serverConfiguration": true
+      },
+      "readiness": 0.8,
+      "canDeploy": false
+    },
+    "recommendations": [
+      {
+        "type": "environment",
+        "priority": "high",
+        "message": "Configure missing AWS credentials for Bedrock integration"
+      },
+      {
+        "type": "environment",
+        "priority": "high",
+        "message": "Configure AWS credentials for Bedrock integration"
+      },
+      {
+        "type": "agents",
+        "priority": "medium",
+        "message": "Application running in fallback mode - AWS Strands not connected"
+      },
+      {
+        "type": "deployment",
+        "priority": "high",
+        "message": "Fix deployment readiness issues before going live"
+      }
+    ],
+    "environment": {
+      "AWS_REGION": {
+        "configured": false,
+        "required": true,
+        "value": "missing"
+      },
+      "AWS_ACCESS_KEY_ID": {
+        "configured": false,
+        "required": true,
+        "value": "missing"
+      },
+      "AWS_SECRET_ACCESS_KEY": {
+        "configured": false,
+        "required": true,
+        "value": "missing"
+      },
+      "BEDROCK_AGENT_ID": {
+        "configured": false,
+        "required": false,
+        "value": "not set"
+      },
+      "BEDROCK_AGENT_ALIAS_ID": {
+        "configured": false,
+        "required": false,
+        "value": "not set"
+      },
+      "SAGEMAKER_DOMAIN_ID": {
+        "configured": false,
+        "required": false,
+        "value": "not set"
+      },
+      "NODE_ENV": {
+        "configured": false,
+        "required": false,
+        "value": "not set"
+      },
+      "PORT": {
+        "configured": false,
+        "required": false,
+        "value": "not set"
+      }
+    },
+    "features": {
+      "cockpit": {
+        "status": "available",
+        "tested": true
+      },
+      "recommendations": {
+        "status": "available",
+        "tested": true
+      },
+      "insights": {
+        "status": "available",
+        "tested": true
+      }
+    }
+  },
+  "summary": {
+    "infrastructure": "11/11 agents",
+    "environment": "0 variables configured",
+    "functionality": "functional",
+    "readiness": "80%",
+    "recommendations": 4
+  }
+}

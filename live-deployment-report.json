@@ -1,0 +1,736 @@
+{
+  "timestamp": "2025-11-21T14:26:27.673Z",
+  "deploymentUrl": "https://automotive-contact-center-production.up.railway.app",
+  "status": {
+    "overall": "deployed",
+    "health": {
+      "status": "healthy",
+      "timestamp": "2025-11-21T14:26:27.076Z",
+      "architecture": "AWS Strands Multi-Agent Orchestration",
+      "orchestration": {
+        "agentCore": {
+          "status": "unhealthy",
+          "error": "Could not load credentials from any providers"
+        },
+        "activeStrands": {
+          "intent": 2,
+          "knowledge": 0,
+          "response": 0
+        },
+        "metrics": {
+          "totalRequests": 2,
+          "averageResponseTime": 0,
+          "strandUtilization": {},
+          "advancedFeatures": {
+            "cockpitCommands": 1,
+            "recommendations": 1,
+            "insights": 1,
+            "campaigns": 1,
+            "serviceBookings": 1
+          }
+        },
+        "architecture": "AWS Strands Multi-Agent Orchestration"
+      }
+    },
+    "endpoints": {
+      "Chat API": {
+        "status": "working",
+        "response": {
+          "type": "chat_response",
+          "message": "For your 2021 Ford F-150, service Department: Mon-Fri 7AM-7PM, Sat 8AM-5PM, Sun Closed. Sales Department: Mon-Sat 9AM-8PM, Sun 10AM-6PM.",
+          "metadata": {
+            "intent": "general",
+            "sentiment": {
+              "score": 0,
+              "sentiment": "neutral",
+              "urgency": "normal",
+              "confidence": 0
+            },
+            "processingTime": 3,
+            "routing": {
+              "department": "General Inquiry",
+              "priority": "normal",
+              "escalate": false
+            },
+            "quickActions": [
+              {
+                "label": "Contact Support",
+                "action": "contact_support"
+              },
+              {
+                "label": "View FAQ",
+                "action": "view_faq"
+              }
+            ],
+            "suggestions": [
+              "What are your hours?",
+              "How can I contact you?"
+            ],
+            "fallback": true,
+            "mode": "local-agents"
+          }
+        }
+      },
+      "Cockpit Assistant": {
+        "status": "working",
+        "response": {
+          "type": "cockpit_response",
+          "action": "climate_control",
+          "response": "Setting temperature to 72°F. Climate control adjusted.",
+          "data": {
+            "temperature": 72,
+            "fanSpeed": "auto",
+            "mode": "auto",
+            "seatHeating": false
+          },
+          "voiceResponse": "Temperature set to 72 degrees.",
+          "metadata": {
+            "feature": "intelligent_cockpit",
+            "processingTime": 1763735187244
+          }
+        }
+      },
+      "Product Recommendations": {
+        "status": "working",
+        "response": {
+          "type": "product_recommendations",
+          "recommendations": {
+            "vehicles": [
+              {
+                "id": "v1",
+                "name": "EcoSedan 2024",
+                "type": "sedan",
+                "price": 28000,
+                "features": [
+                  "hybrid",
+                  "tech-package",
+                  "safety"
+                ],
+                "mpg": 52,
+                "score": 1,
+                "reason": "within budget, excellent fuel economy, top safety ratings",
+                "matchPercentage": 100
+              },
+              {
+                "id": "v5",
+                "name": "WorkTruck 4x4",
+                "type": "truck",
+                "price": 35000,
+                "features": [
+                  "4wd",
+                  "towing",
+                  "durability"
+                ],
+                "towing": 8000,
+                "score": 0.7999999999999999,
+                "reason": "within budget",
+                "matchPercentage": 80
+              },
+              {
+                "id": "v3",
+                "name": "SportCoupe GT",
+                "type": "coupe",
+                "price": 38000,
+                "features": [
+                  "performance",
+                  "luxury",
+                  "tech"
+                ],
+                "mpg": 25,
+                "score": 0.7,
+                "reason": "within budget",
+                "matchPercentage": 70
+              }
+            ],
+            "accessories": [],
+            "services": [
+              {
+                "id": "s1",
+                "name": "Extended Warranty",
+                "price": 2500,
+                "duration": "5 years",
+                "coverage": "comprehensive",
+                "reason": "Protect your investment with comprehensive coverage",
+                "priority": "high"
+              }
+            ],
+            "financing": [
+              {
+                "type": "loan",
+                "apr": 3.9,
+                "term": 60,
+                "monthlyPayment": 644,
+                "totalCost": 38640,
+                "reason": "Best rate for your credit profile"
+              },
+              {
+                "type": "lease",
+                "monthlyPayment": 420,
+                "term": 36,
+                "mileageLimit": 12000,
+                "reason": "Lower monthly payments with flexibility"
+              }
+            ]
+          },
+          "reasoning": {
+            "summary": "Based on your preferences and your profile",
+            "factors": [
+              "budget",
+              "lifestyle",
+              "family needs",
+              "priorities"
+            ],
+            "personalization": "high"
+          },
+          "confidence": 0.65,
+          "metadata": {
+            "feature": "ai_recommendations",
+            "personalized": true
+          }
+        }
+      },
+      "CDH Insights": {
+        "status": "working",
+        "response": {
+          "type": "cdh_insights",
+          "insights": {
+            "customerId": "test-customer",
+            "timeframe": "90days",
+            "generatedAt": "2025-11-21T14:26:27.398Z",
+            "insights": {
+              "behavioral": {
+                "engagementLevel": 0.8366666666666668,
+                "preferredChannels": [
+                  "chat",
+                  "email"
+                ],
+                "peakActivityTimes": [
+                  "weekday mornings",
+                  "weekend afternoons"
+                ],
+                "responseRate": 0.85,
+                "satisfactionScore": 4.6,
+                "loyaltyIndicator": "high",
+                "patterns": [
+                  "Regular service schedule follower",
+                  "Prefers digital communication",
+                  "Responds well to personalized offers"
+                ]
+              },
+              "predictive": [
+                {
+                  "type": "service_due",
+                  "probability": 0.82,
+                  "timeframe": "30 days",
+                  "action": "Send service reminder",
+                  "expectedRevenue": 200
+                },
+                {
+                  "type": "upgrade_interest",
+                  "probability": 0.45,
+                  "timeframe": "6 months",
+                  "action": "Show new models",
+                  "expectedRevenue": 35000
+                }
+              ],
+              "segmentation": [
+                {
+                  "name": "High Value",
+                  "tier": "premium",
+                  "benefits": [
+                    "priority service",
+                    "exclusive offers"
+                  ]
+                },
+                {
+                  "name": "Loyal Customer",
+                  "tier": "gold",
+                  "benefits": [
+                    "loyalty rewards",
+                    "referral bonuses"
+                  ]
+                },
+                {
+                  "name": "Highly Engaged",
+                  "tier": "active",
+                  "benefits": [
+                    "early access",
+                    "beta features"
+                  ]
+                }
+              ],
+              "lifetime": {
+                "historical": 65000,
+                "projected": 128917,
+                "annual": 21667,
+                "breakdown": {
+                  "purchases": 15167,
+                  "service": 5417,
+                  "accessories": 1083
+                }
+              },
+              "recommendations": [
+                {
+                  "insight": "Customer is due for service",
+                  "action": "Send personalized service reminder with 10% discount",
+                  "priority": "high",
+                  "expectedImpact": "Increase service booking by 65%",
+                  "channel": "chat"
+                },
+                {
+                  "insight": "High engagement with electric vehicle content",
+                  "action": "Invite to EV test drive event",
+                  "priority": "medium",
+                  "expectedImpact": "Potential upgrade opportunity",
+                  "channel": "email"
+                },
+                {
+                  "insight": "Consistent service history indicates loyalty",
+                  "action": "Offer loyalty program enrollment",
+                  "priority": "medium",
+                  "expectedImpact": "Increase retention by 20%",
+                  "channel": "chat"
+                }
+              ]
+            },
+            "confidence": 0.9,
+            "nextActions": [
+              {
+                "insight": "Customer is due for service",
+                "action": "Send personalized service reminder with 10% discount",
+                "priority": "high",
+                "expectedImpact": "Increase service booking by 65%",
+                "channel": "chat"
+              },
+              {
+                "insight": "High engagement with electric vehicle content",
+                "action": "Invite to EV test drive event",
+                "priority": "medium",
+                "expectedImpact": "Potential upgrade opportunity",
+                "channel": "email"
+              },
+              {
+                "insight": "Consistent service history indicates loyalty",
+                "action": "Offer loyalty program enrollment",
+                "priority": "medium",
+                "expectedImpact": "Increase retention by 20%",
+                "channel": "chat"
+              }
+            ]
+          },
+          "dashboard": {
+            "summary": {
+              "lifetimeValue": 128917,
+              "engagementLevel": 0.8366666666666668,
+              "churnRisk": 0.1,
+              "nextBestAction": {
+                "insight": "Customer is due for service",
+                "action": "Send personalized service reminder with 10% discount",
+                "priority": "high",
+                "expectedImpact": "Increase service booking by 65%",
+                "channel": "chat"
+              }
+            },
+            "charts": {
+              "engagementTrend": [
+                0.6,
+                0.65,
+                0.7,
+                0.75,
+                0.8,
+                0.85
+              ],
+              "spendingPattern": [
+                500,
+                750,
+                1200,
+                800,
+                950,
+                1100
+              ],
+              "serviceFrequency": {
+                "monthly": 0.5,
+                "quarterly": 2,
+                "annual": 8
+              }
+            },
+            "alerts": [
+              {
+                "type": "high",
+                "message": "Customer is due for service",
+                "action": "Send personalized service reminder with 10% discount"
+              },
+              {
+                "type": "medium",
+                "message": "High engagement with electric vehicle content",
+                "action": "Invite to EV test drive event"
+              },
+              {
+                "type": "medium",
+                "message": "Consistent service history indicates loyalty",
+                "action": "Offer loyalty program enrollment"
+              }
+            ]
+          },
+          "metadata": {
+            "feature": "cdh_insights",
+            "dataPoints": 0.8366666666666668
+          }
+        }
+      },
+      "Marketing Campaign": {
+        "status": "working",
+        "response": {
+          "type": "marketing_campaign",
+          "campaign": {
+            "id": "camp_1763735187477",
+            "type": "email",
+            "audience": {
+              "segment": "new_customers"
+            },
+            "objectives": [
+              "awareness",
+              "engagement"
+            ],
+            "content": {
+              "email": {
+                "subject": "undefined, Save 20% on Your Next Service",
+                "preview": "Exclusive offer for valued customers like you",
+                "body": "Hi there,\n\nYour vehicle deserves the best care. For a limited time, \nenjoy 20% off your next service appointment.\n\n✅ Certified technicians\n✅ Genuine parts\n✅ Quick turnaround\n✅ Complimentary inspection\n\nDon't wait - this offer expires soon!",
+                "cta": "Book Service Now",
+                "personalization": [
+                  "name",
+                  "vehicle",
+                  "last_service"
+                ]
+              },
+              "social": [
+                {
+                  "platform": "facebook",
+                  "content": "🚗 New arrival alert! The vehicle you've been waiting for is here. Cutting-edge tech meets timeless design. Who's ready for a test drive? 🙋",
+                  "hashtags": [
+                    "#NewArrival",
+                    "#Innovation",
+                    "#TestDrive"
+                  ],
+                  "media": "vehicle_showcase.jpg",
+                  "callToAction": "Learn More"
+                },
+                {
+                  "platform": "instagram",
+                  "content": "Adventure awaits. ✨ Swipe to see why this is more than just a vehicle - it's a lifestyle. 📸",
+                  "hashtags": [
+                    "#DreamCar",
+                    "#Automotive",
+                    "#Lifestyle"
+                  ],
+                  "media": "carousel_images",
+                  "callToAction": "Shop Now"
+                },
+                {
+                  "platform": "twitter",
+                  "content": "Innovation meets performance. Our latest model is turning heads and breaking records. Ready to experience it? 🏁",
+                  "hashtags": [
+                    "#Performance",
+                    "#Innovation"
+                  ],
+                  "media": "action_video.mp4",
+                  "callToAction": "Book Test Drive"
+                },
+                {
+                  "platform": "linkedin",
+                  "content": "Redefining the future of mobility. Our commitment to innovation, safety, and sustainability drives everything we do. Discover the difference.",
+                  "hashtags": [
+                    "#Automotive",
+                    "#Innovation",
+                    "#Sustainability"
+                  ],
+                  "media": "corporate_showcase.jpg",
+                  "callToAction": "Learn More"
+                }
+              ],
+              "ads": {
+                "searchAds": [
+                  {
+                    "headline1": "New 2024 Models Available",
+                    "headline2": "Test Drive Today",
+                    "headline3": "Special Financing Rates",
+                    "description1": "Discover innovation with our latest lineup. Advanced tech, premium comfort.",
+                    "description2": "Visit us today for exclusive offers. Limited time only.",
+                    "displayUrl": "www.dealership.com/new-models",
+                    "finalUrl": "https://www.dealership.com/inventory/new"
+                  }
+                ],
+                "displayAds": [
+                  {
+                    "size": "300x250",
+                    "headline": "Your Next Adventure Starts Here",
+                    "body": "Explore our latest models with special year-end pricing",
+                    "cta": "View Inventory",
+                    "visual": "hero_vehicle_image"
+                  },
+                  {
+                    "size": "728x90",
+                    "headline": "Drive Innovation | Save Big",
+                    "body": "Up to $5,000 off + special financing",
+                    "cta": "Get Offer",
+                    "visual": "promotional_banner"
+                  }
+                ],
+                "videoAds": [
+                  {
+                    "duration": 15,
+                    "script": "Open on stunning vehicle shot. Voiceover: \"Innovation meets performance.\" Show key features. End with logo and CTA.",
+                    "cta": "Learn More",
+                    "targetPlatforms": [
+                      "YouTube",
+                      "Facebook",
+                      "Instagram"
+                    ]
+                  }
+                ]
+              },
+              "landingPage": {
+                "hero": {
+                  "headline": "Experience the Future of Driving",
+                  "subheadline": "Advanced technology. Uncompromising safety. Unforgettable performance.",
+                  "cta": "Schedule Test Drive",
+                  "backgroundImage": "hero_vehicle.jpg"
+                },
+                "features": [
+                  {
+                    "icon": "🚀",
+                    "title": "Advanced Technology",
+                    "description": "Cutting-edge features that enhance every journey"
+                  },
+                  {
+                    "icon": "🛡️",
+                    "title": "Safety First",
+                    "description": "5-star safety ratings and advanced driver assistance"
+                  },
+                  {
+                    "icon": "⚡",
+                    "title": "Efficient Performance",
+                    "description": "Power and efficiency in perfect harmony"
+                  },
+                  {
+                    "icon": "🎵",
+                    "title": "Premium Comfort",
+                    "description": "Luxury interiors designed for your comfort"
+                  }
+                ],
+                "testimonials": [
+                  {
+                    "name": "Sarah M.",
+                    "rating": 5,
+                    "text": "Best car buying experience ever! The team was knowledgeable and helpful."
+                  },
+                  {
+                    "name": "John D.",
+                    "rating": 5,
+                    "text": "Love my new vehicle! The technology is incredible."
+                  }
+                ],
+                "offer": {
+                  "headline": "Limited Time Offer",
+                  "details": "Up to $5,000 off + 0.9% APR financing",
+                  "expiry": "30 days",
+                  "cta": "Get This Offer"
+                },
+                "form": {
+                  "fields": [
+                    "name",
+                    "email",
+                    "phone",
+                    "preferred_contact_time"
+                  ],
+                  "submitText": "Get Started",
+                  "privacy": "Your information is secure and will never be shared"
+                }
+              }
+            },
+            "channels": [
+              "email",
+              "facebook",
+              "traditional-media"
+            ],
+            "schedule": {
+              "email": {
+                "days": [
+                  "Tuesday",
+                  "Thursday"
+                ],
+                "time": "10:00 AM",
+                "frequency": "weekly"
+              },
+              "social": {
+                "days": [
+                  "Monday",
+                  "Wednesday",
+                  "Friday"
+                ],
+                "times": [
+                  "9:00 AM",
+                  "1:00 PM",
+                  "7:00 PM"
+                ],
+                "frequency": "daily"
+              },
+              "ads": {
+                "schedule": "24/7",
+                "peakHours": [
+                  "8-10 AM",
+                  "5-8 PM"
+                ],
+                "budget_allocation": "peak_weighted"
+              }
+            },
+            "budget": {
+              "total": 5000,
+              "breakdown": {
+                "email": 1000,
+                "social": 3000,
+                "searchAds": 5000,
+                "displayAds": 4000,
+                "creative": 2000
+              }
+            },
+            "kpis": {
+              "awareness": {
+                "impressions": 100000,
+                "reach": 50000,
+                "brandLift": "15%"
+              },
+              "engagement": {
+                "clickThroughRate": "3.5%",
+                "socialEngagement": 5000,
+                "videoViews": 25000
+              },
+              "conversion": {
+                "leads": 500,
+                "testDrives": 100,
+                "sales": 25,
+                "roi": "300%"
+              }
+            }
+          },
+          "metadata": {
+            "feature": "generative_marketing",
+            "channels": 3
+          }
+        }
+      },
+      "Service Booking": {
+        "status": "working",
+        "response": {
+          "type": "service_booking",
+          "session": {
+            "id": "service_1763735187555",
+            "customerId": "test-customer",
+            "vehicleInfo": {
+              "make": "Toyota",
+              "model": "Camry",
+              "year": 2022
+            },
+            "startTime": "2025-11-21T14:26:27.555Z",
+            "stage": "welcome",
+            "selectedServices": [],
+            "estimatedCost": 0,
+            "estimatedDuration": 0
+          },
+          "message": "Welcome! I'll help you schedule service for your 2022 Toyota Camry. \n    \nCurrent mileage: undefined miles\nLast service: Not recorded\n\nLet's find the right service for your vehicle.",
+          "options": {
+            "quickActions": [
+              {
+                "id": "routine",
+                "label": "Routine Maintenance",
+                "icon": "🔧"
+              },
+              {
+                "id": "repair",
+                "label": "Repair Service",
+                "icon": "🛠️"
+              },
+              {
+                "id": "diagnostic",
+                "label": "Diagnostic Check",
+                "icon": "🔍"
+              },
+              {
+                "id": "custom",
+                "label": "Custom Service",
+                "icon": "⚙️"
+              }
+            ],
+            "recommendations": [],
+            "urgentAlerts": []
+          },
+          "metadata": {
+            "feature": "interactive_servicing",
+            "vehicleType": "Toyota"
+          }
+        }
+      },
+      "Enhanced Metrics": {
+        "status": "working",
+        "response": {
+          "agentCore": {
+            "status": "unhealthy",
+            "error": "Could not load credentials from any providers"
+          },
+          "activeStrands": {
+            "intent": 3,
+            "knowledge": 0,
+            "response": 0
+          },
+          "metrics": {
+            "totalRequests": 3,
+            "averageResponseTime": 0,
+            "strandUtilization": {},
+            "advancedFeatures": {
+              "cockpitCommands": 2,
+              "recommendations": 2,
+              "insights": 2,
+              "campaigns": 2,
+              "serviceBookings": 2
+            }
+          },
+          "architecture": "AWS Strands Multi-Agent Orchestration",
+          "advancedFeatures": {
+            "cockpitCommands": 2,
+            "recommendations": 2,
+            "insights": 2,
+            "campaigns": 2,
+            "serviceBookings": 2
+          },
+          "featureUtilization": {
+            "cockpit": "2 commands",
+            "recommendations": "2 generated",
+            "insights": "2 reports",
+            "campaigns": "2 created",
+            "serviceBookings": "2 sessions"
+          },
+          "totalFeatures": 12
+        }
+      }
+    }
+  },
+  "agents": {
+    "total": 12,
+    "deployed": 7,
+    "working": 7,
+    "failed": 0
+  },
+  "fixes": [
+    "aws_credentials",
+    "aws_credentials"
+  ],
+  "recommendations": [
+    {
+      "priority": "high",
+      "type": "aws_config",
+      "message": "Configure AWS credentials in Railway environment variables",
+      "action": "Set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION in Railway dashboard"
+    }
+  ]
+}

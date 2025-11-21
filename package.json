@@ -1,20 +1,27 @@
 {
   "name": "automotive-contact-center",
   "version": "1.0.0",
-  "description": "AI Agent-based Automotive Intelligent Contact Center",
+  "description": "AI Agent-based Automotive Intelligent Contact Center with AWS Bedrock Integration",
   "main": "server.js",
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
     "test": "node test-runner.js",
     "test:single": "node test-runner.js",
-    "demo": "node demo.js"
+    "demo": "node demo.js",
+    "deploy:bedrock": "node deploy-bedrock-agents.js",
+    "deploy:all": "node deploy-all-agents.js",
+    "check:status": "node check-deployment-status.js",
+    "check:all": "node check-all-agents.js",
+    "deploy:check": "npm run check:all && npm run deploy:all"
   },
   "dependencies": {
     "express": "^4.18.2",
     "ws": "^8.14.2",
     "uuid": "^9.0.1",
     "@aws-sdk/client-bedrock-agent-runtime": "^3.450.0",
+    "@aws-sdk/client-bedrock-agent": "^3.450.0",
+    "@aws-sdk/client-bedrock": "^3.450.0",
     "@aws-sdk/client-sagemaker": "^3.450.0",
     "@aws-sdk/credential-providers": "^3.450.0"
   }
