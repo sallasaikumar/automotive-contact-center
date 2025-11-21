@@ -301,6 +301,42 @@
         </div>
       </div>
 
+      <div class="input-area">
+        <div class="input-wrapper">
+          <button class="input-icon-btn" title="Attach file">📎</button>
+          <input 
+            type="text" 
+            id="message-input" 
+            placeholder="Type your message or ask a question..." 
+            autocomplete="off"
+          >
+          <button class="input-icon-btn" title="Emoji">😊</button>
+          <button id="send-btn" class="send-button" onclick="sendMessage()">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M18 2L9 11M18 2l-6 16-3-7-7-3 16-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        <div class="input-hint">
+          <span class="hint-icon">💡</span>
+          <span>Tip: Ask about service, sales, warranty, or technical support</span>
+        </div>
+      </div>
+
+      <!-- Customer Profile Selector -->
+      <div class="customer-selector-bar" id="customer-selector">
+        <div class="features-label">👤 Test as Customer:</div>
+        <button class="customer-chip active" onclick="selectCustomer('CUST001')" data-customer="CUST001">
+          <span class="chip-icon">👨</span> John Smith<br><small>Toyota Camry 2022</small>
+        </button>
+        <button class="customer-chip" onclick="selectCustomer('CUST002')" data-customer="CUST002">
+          <span class="chip-icon">👩</span> Sarah Johnson<br><small>Tesla Model 3 2023</small>
+        </button>
+        <button class="customer-chip" onclick="selectCustomer('CUST003')" data-customer="CUST003">
+          <span class="chip-icon">👨</span> Michael Chen<br><small>Ford F-150 2021</small>
+        </button>
+      </div>
+
       <div class="suggestions-bar" id="suggestions">
         <button class="suggestions-toggle" onclick="toggleSuggestions()">
           <span id="toggle-icon">▼</span> <span id="toggle-text">Hide</span>
@@ -332,20 +368,6 @@
         </button>
       </div>
 
-      <!-- Customer Profile Selector -->
-      <div class="customer-selector-bar" id="customer-selector">
-        <div class="features-label">👤 Test as Customer:</div>
-        <button class="customer-chip active" onclick="selectCustomer('CUST001')" data-customer="CUST001">
-          <span class="chip-icon">👨</span> John Smith<br><small>Toyota Camry 2022</small>
-        </button>
-        <button class="customer-chip" onclick="selectCustomer('CUST002')" data-customer="CUST002">
-          <span class="chip-icon">👩</span> Sarah Johnson<br><small>Tesla Model 3 2023</small>
-        </button>
-        <button class="customer-chip" onclick="selectCustomer('CUST003')" data-customer="CUST003">
-          <span class="chip-icon">👨</span> Michael Chen<br><small>Ford F-150 2021</small>
-        </button>
-      </div>
-
       <!-- Enhanced Features Bar -->
       <div class="enhanced-features-bar" id="enhanced-features">
         <div class="features-label">✨ Enhanced Features:</div>
@@ -361,28 +383,6 @@
         <button class="feature-chip" onclick="testServiceBooking()">
           <span class="chip-icon">🔧</span> Book Service
         </button>
-      </div>
-
-      <div class="input-area">
-        <div class="input-wrapper">
-          <button class="input-icon-btn" title="Attach file">📎</button>
-          <input 
-            type="text" 
-            id="message-input" 
-            placeholder="Type your message or ask a question..." 
-            autocomplete="off"
-          >
-          <button class="input-icon-btn" title="Emoji">😊</button>
-          <button id="send-btn" class="send-button" onclick="sendMessage()">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M18 2L9 11M18 2l-6 16-3-7-7-3 16-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-        <div class="input-hint">
-          <span class="hint-icon">💡</span>
-          <span>Tip: Ask about service, sales, warranty, or technical support</span>
-        </div>
       </div>
 
       <div class="quick-actions-bar" id="quick-actions"></div>
