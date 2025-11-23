@@ -1293,3 +1293,321 @@ startRealTimeMetrics();
 console.log('✅ Enhanced features loaded successfully!');
 console.log('👤 Customer selector ready');
 console.log('🎯 All 12 agents active');
+
+
+// ============================================
+// AGENTIC CORE - REASONING ENGINE
+// ============================================
+
+async function testAgenticReasoning() {
+  showFeatureLoading('reasoning');
+  addActivityLog('🧠 Reasoning Engine', 'Processing complex query...');
+  
+  const query = "My check engine light is on, should I continue driving or stop immediately?";
+  const context = {
+    urgency: 'high',
+    complexity: 'medium',
+    customerProfile: {
+      vehicle: 'Toyota Camry 2022',
+      mileage: 15420
+    }
+  };
+  
+  // Simulate agentic reasoning
+  setTimeout(() => {
+    displayAgenticReasoning({
+      goal: {
+        type: 'decision_making',
+        priority: 'high',
+        description: 'Determine safe course of action for check engine light'
+      },
+      reasoning: {
+        chain: [
+          { step: 1, type: 'context_analysis', description: 'Analyzing vehicle status and symptoms' },
+          { step: 2, type: 'problem_decomposition', description: 'Breaking down potential causes' },
+          { step: 3, type: 'knowledge_retrieval', description: 'Retrieving diagnostic information' },
+          { step: 4, type: 'hypothesis_generation', description: 'Generating possible scenarios' },
+          { step: 5, type: 'evaluation', description: 'Evaluating risk levels' },
+          { step: 6, type: 'synthesis', description: 'Formulating recommendation' }
+        ],
+        steps: [
+          {
+            step: 1,
+            type: 'context_analysis',
+            result: { findings: ['No unusual sounds', 'Engine running normally', 'Recent service 45 days ago'] },
+            confidence: 0.92
+          },
+          {
+            step: 2,
+            type: 'problem_decomposition',
+            result: { subProblems: ['Identify urgency', 'Assess safety', 'Determine next steps'] },
+            confidence: 0.88
+          },
+          {
+            step: 3,
+            type: 'knowledge_retrieval',
+            result: { articles: 3, bestPractices: ['Check for flashing light', 'Monitor performance'] },
+            confidence: 0.95
+          },
+          {
+            step: 4,
+            type: 'hypothesis_generation',
+            result: { hypotheses: ['Sensor issue (70%)', 'Emissions problem (20%)', 'Serious issue (10%)'] },
+            confidence: 0.85
+          },
+          {
+            step: 5,
+            type: 'evaluation',
+            result: { topSolution: 'Safe to drive with caution', confidence: 0.87 },
+            confidence: 0.87
+          },
+          {
+            step: 6,
+            type: 'synthesis',
+            result: { recommendation: 'Drive to service center within 24 hours', reasoning: 'Light is steady, no performance issues' },
+            confidence: 0.90
+          }
+        ],
+        confidence: 0.89
+      },
+      decision: {
+        decision: 'Safe to drive to service center - schedule diagnostic within 24 hours',
+        rationale: 'Based on steady (not flashing) light and normal engine performance',
+        confidence: 0.89,
+        alternatives: [
+          { option: 'Stop immediately and call tow truck', score: 0.30 },
+          { option: 'Continue normal driving', score: 0.45 }
+        ],
+        risks: [
+          { risk: 'Potential engine damage if ignored', severity: 'medium', mitigation: 'Schedule diagnostic ASAP' }
+        ],
+        benefits: ['Accurate diagnosis', 'Prevent major damage', 'Cost-effective solution']
+      },
+      validation: {
+        validated: true,
+        confidence: 0.89,
+        status: 'high_confidence'
+      },
+      actionPlan: {
+        immediateActions: [
+          { action: 'Schedule diagnostic appointment', priority: 'high', timeframe: 'within 24 hours' },
+          { action: 'Monitor engine performance', priority: 'high', timeframe: 'continuously' }
+        ],
+        followUpActions: [
+          { action: 'Review diagnostic results', priority: 'high', timeframe: 'after diagnosis' }
+        ]
+      }
+    });
+    addActivityLog('🧠 Reasoning Engine', 'Complex reasoning completed');
+  }, 1500);
+}
+
+function displayAgenticReasoning(data) {
+  const messagesContainer = document.getElementById('messages');
+  
+  const messageDiv = document.createElement('div');
+  messageDiv.className = 'message assistant-message agentic-message';
+  
+  // Build reasoning chain HTML
+  let reasoningChainHTML = data.reasoning.steps.map((step, index) => `
+    <div class="reasoning-step ${index === data.reasoning.steps.length - 1 ? 'active' : ''}">
+      <div class="step-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="step-number">${step.step}</span>
+          <span class="step-type">${step.type.replace(/_/g, ' ')}</span>
+        </div>
+        <span class="step-confidence">${(step.confidence * 100).toFixed(0)}% confidence</span>
+      </div>
+      <div class="step-description">${JSON.stringify(step.result).substring(0, 100)}...</div>
+    </div>
+  `).join('');
+  
+  messageDiv.innerHTML = `
+    <div class="message-avatar">🧠</div>
+    <div class="message-content">
+      <div class="agentic-badge">Agentic Core - Reasoning Engine</div>
+      <div class="message-text">
+        <strong>Goal:</strong> ${data.goal.description}<br>
+        <strong>Priority:</strong> ${data.goal.priority.toUpperCase()}
+      </div>
+      
+      <div class="reasoning-chain">
+        <h4 style="margin: 0 0 12px 0; font-size: 14px; color: #8b008b;">
+          🔗 Reasoning Chain (${data.reasoning.steps.length} steps)
+        </h4>
+        ${reasoningChainHTML}
+      </div>
+      
+      <div class="decision-tree">
+        <h4 style="margin: 0 0 12px 0; font-size: 14px; color: #8b008b;">
+          ✅ Decision & Recommendation
+        </h4>
+        <div class="decision-node">
+          <div class="decision-label">Recommendation</div>
+          <div class="decision-value">${data.decision.decision}</div>
+        </div>
+        <div class="decision-node">
+          <div class="decision-label">Rationale</div>
+          <div class="decision-value">${data.decision.rationale}</div>
+        </div>
+        <div class="decision-node">
+          <div class="decision-label">Confidence</div>
+          <div class="decision-value">${(data.decision.confidence * 100).toFixed(1)}%</div>
+        </div>
+      </div>
+      
+      <div class="quick-actions-grid" style="margin-top: 15px;">
+        ${data.actionPlan.immediateActions.map(action => `
+          <button class="action-button">
+            <span>⚡</span>
+            <span>${action.action}</span>
+          </button>
+        `).join('')}
+      </div>
+      
+      <div class="message-time">${new Date().toLocaleTimeString()}</div>
+    </div>
+  `;
+  
+  messagesContainer.appendChild(messageDiv);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  
+  animateAgentCard('reasoning');
+}
+
+// ============================================
+// AGENTIC CORE - LEARNING SYSTEM
+// ============================================
+
+async function testAgenticLearning() {
+  showFeatureLoading('learning');
+  addActivityLog('📚 Learning System', 'Analyzing patterns and learning...');
+  
+  // Simulate agentic learning
+  setTimeout(() => {
+    displayAgenticLearning({
+      patterns: [
+        { type: 'intent_response', pattern: 'service → success', confidence: 0.92, frequency: 45 },
+        { type: 'sentiment_outcome', pattern: 'urgent → high_satisfaction', confidence: 0.88, frequency: 32 },
+        { type: 'context_pattern', pattern: 'warranty_active → positive_outcome', confidence: 0.85, frequency: 28 }
+      ],
+      knowledgeUpdate: {
+        updatesApplied: 3,
+        memorySize: {
+          semantic: 156,
+          longTerm: 89
+        }
+      },
+      strategyAdaptation: {
+        adaptations: 3,
+        strategies: [
+          { strategy: 'intent_response', action: 'reinforced', newWeight: 1.21 },
+          { strategy: 'sentiment_outcome', action: 'reinforced', newWeight: 1.15 },
+          { strategy: 'context_pattern', action: 'adjusted', newWeight: 1.08 }
+        ]
+      },
+      consolidation: {
+        consolidated: 5,
+        patterns: [
+          { pattern: 'service_success', frequency: 12 },
+          { pattern: 'urgent_resolved', frequency: 8 }
+        ]
+      },
+      metaLearning: {
+        improvementRate: '+12.5%',
+        trend: 'improving',
+        bestStrategies: [
+          { type: 'intent_response', weight: 1.21, uses: 45 },
+          { type: 'sentiment_outcome', weight: 1.15, uses: 32 }
+        ],
+        learningEfficiency: '87.3%'
+      },
+      metrics: {
+        totalInteractions: 234,
+        patternsLearned: 156,
+        adaptations: 89,
+        successRate: 0.92,
+        improvementRate: 12.5
+      }
+    });
+    addActivityLog('📚 Learning System', 'Learning cycle completed');
+  }, 1500);
+}
+
+function displayAgenticLearning(data) {
+  const messagesContainer = document.getElementById('messages');
+  
+  const messageDiv = document.createElement('div');
+  messageDiv.className = 'message assistant-message agentic-message';
+  
+  messageDiv.innerHTML = `
+    <div class="message-avatar">📚</div>
+    <div class="message-content">
+      <div class="agentic-badge">Agentic Core - Learning System</div>
+      <div class="message-text">
+        Continuous learning from ${data.metrics.totalInteractions} interactions with ${(data.metrics.successRate * 100).toFixed(1)}% success rate
+      </div>
+      
+      <div class="learning-metrics">
+        <div class="metric-box">
+          <div class="metric-label">Patterns Learned</div>
+          <div class="metric-value">${data.metrics.patternsLearned}</div>
+          <div class="metric-trend">↑ Growing</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">Adaptations</div>
+          <div class="metric-value">${data.metrics.adaptations}</div>
+          <div class="metric-trend">↑ Active</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">Success Rate</div>
+          <div class="metric-value">${(data.metrics.successRate * 100).toFixed(0)}%</div>
+          <div class="metric-trend">↑ High</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">Improvement</div>
+          <div class="metric-value">${data.metaLearning.improvementRate}</div>
+          <div class="metric-trend">↑ ${data.metaLearning.trend}</div>
+        </div>
+      </div>
+      
+      <div class="pattern-list">
+        <h4 style="margin: 15px 0 10px 0; font-size: 14px; color: #8b008b;">
+          🔍 Recognized Patterns
+        </h4>
+        ${data.patterns.map(pattern => `
+          <div class="pattern-item">
+            <span class="pattern-text">${pattern.pattern}</span>
+            <span class="pattern-confidence">${(pattern.confidence * 100).toFixed(0)}%</span>
+          </div>
+        `).join('')}
+      </div>
+      
+      <div class="memory-stats">
+        <div class="memory-stat">
+          <div class="memory-stat-label">Semantic</div>
+          <div class="memory-stat-value">${data.knowledgeUpdate.memorySize.semantic}</div>
+        </div>
+        <div class="memory-stat">
+          <div class="memory-stat-label">Long-Term</div>
+          <div class="memory-stat-value">${data.knowledgeUpdate.memorySize.longTerm}</div>
+        </div>
+        <div class="memory-stat">
+          <div class="memory-stat-label">Efficiency</div>
+          <div class="memory-stat-value">${data.metaLearning.learningEfficiency}</div>
+        </div>
+      </div>
+      
+      <div class="message-time">${new Date().toLocaleTimeString()}</div>
+    </div>
+  `;
+  
+  messagesContainer.appendChild(messageDiv);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  
+  animateAgentCard('learning');
+}
+
+console.log('✅ Agentic Core features loaded successfully!');
+console.log('🧠 Reasoning Engine ready');
+console.log('📚 Learning System ready');

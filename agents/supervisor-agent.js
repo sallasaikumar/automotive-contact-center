@@ -7,6 +7,8 @@ const { ProductRecommendationAgent } = require('./product-recommendation-agent')
 const { CDHInsightsAgent } = require('./cdh-insights-agent');
 const { GenerativeMarketingAgent } = require('./generative-marketing-agent');
 const { InteractiveServicingAgent } = require('./interactive-servicing-agent');
+const { AgenticCoreReasoning } = require('./agentic-core-reasoning');
+const { AgenticCoreLearning } = require('./agentic-core-learning');
 
 class SupervisorAgent {
   constructor() {
@@ -24,6 +26,10 @@ class SupervisorAgent {
     this.marketingAgent = new GenerativeMarketingAgent();
     this.servicingAgent = new InteractiveServicingAgent();
     
+    // Agentic Core agents
+    this.agenticReasoning = new AgenticCoreReasoning();
+    this.agenticLearning = new AgenticCoreLearning();
+    
     this.sessions = new Map();
     this.orchestrationMetrics = {
       totalRequests: 0,
@@ -34,7 +40,9 @@ class SupervisorAgent {
         recommendations: 0,
         insights: 0,
         campaigns: 0,
-        serviceBookings: 0
+        serviceBookings: 0,
+        agenticReasoning: 0,
+        agenticLearning: 0
       }
     };
   }
@@ -428,6 +436,68 @@ class SupervisorAgent {
         serviceBookings: `${this.orchestrationMetrics.advancedFeatures.serviceBookings} sessions`
       },
       totalFeatures: 12 // 7 original + 5 new
+    };
+  }
+  // Agentic Core - Reasoning Engine
+  async handleAgenticReasoning(query, context, sessionId) {
+    this.orchestrationMetrics.advancedFeatures.agenticReasoning++;
+
+    const result = await this.agenticReasoning.processWithReasoning(query, context, sessionId);
+
+    return {
+      type: 'agentic_reasoning',
+      ...result,
+      metadata: {
+        ...result.metadata,
+        feature: 'agentic_core_reasoning'
+      }
+    };
+  }
+
+  // Agentic Core - Learning Engine
+  async handleAgenticLearning(interaction, outcome, sessionId) {
+    this.orchestrationMetrics.advancedFeatures.agenticLearning++;
+
+    const result = await this.agenticLearning.learnFromInteraction(interaction, outcome, sessionId);
+
+    return {
+      type: 'agentic_learning',
+      ...result,
+      metadata: {
+        ...result.metadata,
+        feature: 'agentic_core_learning'
+      }
+    };
+  }
+
+  // Get Agentic Core prediction
+  async getAgenticPrediction(context, sessionId) {
+    const result = await this.agenticLearning.predictOptimalResponse(context, sessionId);
+
+    return {
+      type: 'agentic_prediction',
+      ...result,
+      metadata: {
+        ...result.metadata,
+        feature: 'agentic_core_prediction'
+      }
+    };
+  }
+
+  // Get Agentic Core status
+  async getAgenticCoreStatus() {
+    return {
+      reasoning: {
+        active: true,
+        decisionHistory: this.agenticReasoning.getDecisionHistory(),
+        capabilities: this.agenticReasoning.capabilities
+      },
+      learning: {
+        active: true,
+        memoryStats: this.agenticLearning.getMemoryStats(),
+        learningMetrics: this.agenticLearning.getLearningMetrics(),
+        adaptiveStrategies: this.agenticLearning.getAdaptiveStrategies()
+      }
     };
   }
 }

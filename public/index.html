@@ -27,10 +27,9 @@
       </div>
       <div class="hero-stats">
         <div class="stat-item">
-          <span class="stat-number" id="agent-count">12</span>
+          <span class="stat-number" id="agent-count">14</span>
           <span class="stat-label">AI Agents</span>
-        </div>
-        <div class="stat-item">
+        </div>        <div class="stat-item">
           <span class="stat-number">24/7</span>
           <span class="stat-label">Available</span>
         </div>
@@ -172,6 +171,32 @@
             <p>Booking</p>
           </div>
           <div class="agent-status standby"></div>
+        </div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+      
+      <div class="sidebar-header">
+        <h3>🧠 Agentic Core</h3>
+      </div>
+      
+      <div class="agents-list">
+        <div class="agent-card agentic-core" data-agent="reasoning">
+          <div class="agent-icon">🧠</div>
+          <div class="agent-info">
+            <h4>Reasoning Engine</h4>
+            <p>Multi-Step Logic</p>
+          </div>
+          <div class="agent-status active"></div>
+        </div>
+        
+        <div class="agent-card agentic-core" data-agent="learning">
+          <div class="agent-icon">📚</div>
+          <div class="agent-info">
+            <h4>Learning System</h4>
+            <p>Adaptive AI</p>
+          </div>
+          <div class="agent-status active"></div>
         </div>
       </div>
     </div>
@@ -373,6 +398,17 @@
         </button>
         <button class="feature-chip" onclick="testServiceBooking()">
           <span class="chip-icon">🔧</span> Book Service
+        </button>
+      </div>
+
+      <!-- Agentic Core Bar -->
+      <div class="agentic-core-bar" id="agentic-core">
+        <div class="features-label">🧠 Agentic Core:</div>
+        <button class="agentic-chip" onclick="testAgenticReasoning()">
+          <span class="chip-icon">🧠</span> Reasoning Engine
+        </button>
+        <button class="agentic-chip" onclick="testAgenticLearning()">
+          <span class="chip-icon">📚</span> Learning System
         </button>
       </div>
 
