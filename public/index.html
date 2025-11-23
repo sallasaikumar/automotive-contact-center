@@ -27,8 +27,8 @@
       </div>
       <div class="hero-stats">
         <div class="stat-item">
-          <span class="stat-number" id="agent-count">14</span>
-          <span class="stat-label">AI Agents</span>
+          <span class="stat-number" id="agent-count">17</span>
+          <span class="stat-label">AI Agents + MCP</span>
         </div>        <div class="stat-item">
           <span class="stat-number">24/7</span>
           <span class="stat-label">Available</span>
@@ -195,6 +195,41 @@
           <div class="agent-info">
             <h4>Learning System</h4>
             <p>Adaptive AI</p>
+          </div>
+          <div class="agent-status active"></div>
+        </div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+      
+      <div class="sidebar-header">
+        <h3>🔌 MCP Servers</h3>
+      </div>
+      
+      <div class="agents-list">
+        <div class="agent-card mcp-server" data-agent="vehicle-design-mcp">
+          <div class="agent-icon">🚗</div>
+          <div class="agent-info">
+            <h4>Vehicle Design</h4>
+            <p>MCP Protocol</p>
+          </div>
+          <div class="agent-status active"></div>
+        </div>
+        
+        <div class="agent-card mcp-server" data-agent="customer-journey-mcp">
+          <div class="agent-icon">🗺️</div>
+          <div class="agent-info">
+            <h4>Customer Journey</h4>
+            <p>MCP Protocol</p>
+          </div>
+          <div class="agent-status active"></div>
+        </div>
+        
+        <div class="agent-card mcp-server" data-agent="market-intelligence-mcp">
+          <div class="agent-icon">📈</div>
+          <div class="agent-info">
+            <h4>Market Intelligence</h4>
+            <p>MCP Protocol</p>
           </div>
           <div class="agent-status active"></div>
         </div>
@@ -409,6 +444,20 @@
         </button>
         <button class="agentic-chip" onclick="testAgenticLearning()">
           <span class="chip-icon">📚</span> Learning System
+        </button>
+      </div>
+
+      <!-- MCP Servers Bar -->
+      <div class="mcp-servers-bar" id="mcp-servers">
+        <div class="features-label">🔌 MCP Servers:</div>
+        <button class="mcp-chip" onclick="testVehicleDesignMCP()">
+          <span class="chip-icon">🚗</span> Vehicle Design
+        </button>
+        <button class="mcp-chip" onclick="testCustomerJourneyMCP()">
+          <span class="chip-icon">🗺️</span> Customer Journey
+        </button>
+        <button class="mcp-chip" onclick="testMarketIntelligenceMCP()">
+          <span class="chip-icon">📈</span> Market Intelligence
         </button>
       </div>
 

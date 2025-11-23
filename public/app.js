@@ -1611,3 +1611,259 @@ function displayAgenticLearning(data) {
 console.log('✅ Agentic Core features loaded successfully!');
 console.log('🧠 Reasoning Engine ready');
 console.log('📚 Learning System ready');
+
+
+// ============================================
+// MCP SERVER 1 - VEHICLE DESIGN
+// ============================================
+
+async function testVehicleDesignMCP() {
+  showFeatureLoading('vehicle-design-mcp');
+  addActivityLog('🚗 Vehicle Design MCP', 'Configuring vehicle...');
+  
+  setTimeout(() => {
+    displayMCPResult({
+      type: 'vehicle_design',
+      tool: 'configure_vehicle',
+      result: {
+        model: 'Luxury Sedan',
+        modelId: 'sedan-luxury',
+        basePrice: 45000,
+        color: 'Sapphire Blue',
+        interior: 'Premium Leather',
+        packages: ['Sport Package', 'Tech Package'],
+        totalPrice: 52500,
+        savings: 1000,
+        configurationId: 'config_demo_12345',
+        features: [
+          'Sport suspension',
+          'Performance brakes',
+          'HUD display',
+          'Adaptive cruise control',
+          '360-degree camera'
+        ]
+      },
+      metadata: {
+        protocol: 'Model Context Protocol',
+        server: 'Vehicle Design MCP',
+        version: '1.0.0'
+      }
+    });
+    addActivityLog('🚗 Vehicle Design MCP', 'Configuration complete');
+  }, 1500);
+}
+
+// ============================================
+// MCP SERVER 2 - CUSTOMER JOURNEY
+// ============================================
+
+async function testCustomerJourneyMCP() {
+  showFeatureLoading('customer-journey-mcp');
+  addActivityLog('🗺️ Customer Journey MCP', 'Mapping journey...');
+  
+  setTimeout(() => {
+    displayMCPResult({
+      type: 'customer_journey',
+      tool: 'map_journey',
+      result: {
+        persona: 'First-Time Buyer',
+        currentStage: 'Consideration',
+        stages: [
+          { name: 'Awareness', duration: '1-2 weeks', status: 'completed' },
+          { name: 'Consideration', duration: '2-4 weeks', status: 'current' },
+          { name: 'Purchase', duration: '1-2 weeks', status: 'upcoming' },
+          { name: 'Ownership', duration: '3-7 years', status: 'future' }
+        ],
+        criticalTouchpoints: ['Test Drive', 'Financing Consultation', 'Delivery Experience'],
+        nextBestActions: [
+          'Schedule test drive',
+          'Review financing options',
+          'Compare safety ratings'
+        ],
+        predictedConversion: '18%',
+        estimatedTimeToConversion: '2-3 weeks'
+      },
+      metadata: {
+        protocol: 'Model Context Protocol',
+        server: 'Customer Journey MCP',
+        version: '1.0.0'
+      }
+    });
+    addActivityLog('🗺️ Customer Journey MCP', 'Journey mapped successfully');
+  }, 1500);
+}
+
+// ============================================
+// MCP SERVER 3 - MARKET INTELLIGENCE
+// ============================================
+
+async function testMarketIntelligenceMCP() {
+  showFeatureLoading('market-intelligence-mcp');
+  addActivityLog('📈 Market Intelligence MCP', 'Analyzing market...');
+  
+  setTimeout(() => {
+    displayMCPResult({
+      type: 'market_intelligence',
+      tool: 'analyze_market_segment',
+      result: {
+        segment: 'SUV',
+        marketSize: '$185B',
+        growthRate: '+5.8%',
+        yourMarketShare: '14%',
+        ranking: '#3 of 5',
+        competitiveIntensity: 'High',
+        attractiveness: {
+          overall: 'High',
+          growth: 'High',
+          size: 'Large',
+          profitability: 'Good'
+        },
+        keyTrends: [
+          'Electrification accelerating',
+          'Connected features expected',
+          'Safety tech becoming standard'
+        ],
+        opportunities: [
+          'Affordable EV SUV gap',
+          'Connected services revenue',
+          'Urban mobility segment'
+        ],
+        forecast2025: { marketSize: '$195B', yourShare: '15.5%' }
+      },
+      metadata: {
+        protocol: 'Model Context Protocol',
+        server: 'Market Intelligence MCP',
+        version: '1.0.0'
+      }
+    });
+    addActivityLog('📈 Market Intelligence MCP', 'Analysis complete');
+  }, 1500);
+}
+
+// ============================================
+// MCP DISPLAY FUNCTION
+// ============================================
+
+function displayMCPResult(data) {
+  const messagesContainer = document.getElementById('messages');
+  
+  const messageDiv = document.createElement('div');
+  messageDiv.className = 'message assistant-message mcp-message';
+  
+  const icons = {
+    vehicle_design: '🚗',
+    customer_journey: '🗺️',
+    market_intelligence: '📈'
+  };
+  
+  const titles = {
+    vehicle_design: 'Vehicle Design MCP',
+    customer_journey: 'Customer Journey MCP',
+    market_intelligence: 'Market Intelligence MCP'
+  };
+  
+  let contentHTML = '';
+  
+  if (data.type === 'vehicle_design') {
+    contentHTML = `
+      <div class="mcp-data-grid">
+        <div class="mcp-data-card">
+          <div class="mcp-data-label">Model</div>
+          <div class="mcp-data-value">${data.result.model}</div>
+        </div>
+        <div class="mcp-data-card">
+          <div class="mcp-data-label">Total Price</div>
+          <div class="mcp-data-value">$${data.result.totalPrice.toLocaleString()}</div>
+          <div class="mcp-data-description">Save $${data.result.savings}</div>
+        </div>
+        <div class="mcp-data-card">
+          <div class="mcp-data-label">Color</div>
+          <div class="mcp-data-value">${data.result.color}</div>
+        </div>
+        <div class="mcp-data-card">
+          <div class="mcp-data-label">Interior</div>
+          <div class="mcp-data-value">${data.result.interior}</div>
+        </div>
+      </div>
+      <div class="mcp-tool-result">
+        <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #10b981;">Selected Features</h4>
+        ${data.result.features.map(f => `<div style="padding: 6px 0; font-size: 13px;">✓ ${f}</div>`).join('')}
+      </div>
+    `;
+  } else if (data.type === 'customer_journey') {
+    contentHTML = `
+      <div class="mcp-data-grid">
+        <div class="mcp-data-card">
+          <div class="mcp-data-label">Persona</div>
+          <div class="mcp-data-value">${data.result.persona}</div>
+        </div>
+        <div class="mcp-data-card">
+          <div class="mcp-data-label">Current Stage</div>
+          <div class="mcp-data-value">${data.result.currentStage}</div>
+        </div>
+        <div class="mcp-data-card">
+          <div class="mcp-data-label">Conversion Rate</div>
+          <div class="mcp-data-value">${data.result.predictedConversion}</div>
+        </div>
+        <div class="mcp-data-card">
+          <div class="mcp-data-label">Time to Convert</div>
+          <div class="mcp-data-value">${data.result.estimatedTimeToConversion}</div>
+        </div>
+      </div>
+      <div class="mcp-tool-result">
+        <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #10b981;">Next Best Actions</h4>
+        ${data.result.nextBestActions.map(a => `<div style="padding: 6px 0; font-size: 13px;">→ ${a}</div>`).join('')}
+      </div>
+    `;
+  } else if (data.type === 'market_intelligence') {
+    contentHTML = `
+      <div class="mcp-data-grid">
+        <div class="mcp-data-card">
+          <div class="mcp-data-label">Market Size</div>
+          <div class="mcp-data-value">${data.result.marketSize}</div>
+          <div class="mcp-data-description">Growth: ${data.result.growthRate}</div>
+        </div>
+        <div class="mcp-data-card">
+          <div class="mcp-data-label">Your Share</div>
+          <div class="mcp-data-value">${data.result.yourMarketShare}</div>
+          <div class="mcp-data-description">${data.result.ranking}</div>
+        </div>
+        <div class="mcp-data-card">
+          <div class="mcp-data-label">Attractiveness</div>
+          <div class="mcp-data-value">${data.result.attractiveness.overall}</div>
+        </div>
+        <div class="mcp-data-card">
+          <div class="mcp-data-label">2025 Forecast</div>
+          <div class="mcp-data-value">${data.result.forecast2025.yourShare}</div>
+        </div>
+      </div>
+      <div class="mcp-tool-result">
+        <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #10b981;">Key Opportunities</h4>
+        ${data.result.opportunities.map(o => `<div style="padding: 6px 0; font-size: 13px;">💡 ${o}</div>`).join('')}
+      </div>
+    `;
+  }
+  
+  messageDiv.innerHTML = `
+    <div class="message-avatar">${icons[data.type]}</div>
+    <div class="message-content">
+      <div class="mcp-badge">${titles[data.type]}</div>
+      <div class="mcp-tool-header">
+        <span class="mcp-tool-name">Tool: ${data.tool}</span>
+        <span class="mcp-protocol-badge">MCP v1.0</span>
+      </div>
+      ${contentHTML}
+      <div class="message-time">${new Date().toLocaleTimeString()}</div>
+    </div>
+  `;
+  
+  messagesContainer.appendChild(messageDiv);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  
+  animateAgentCard(data.type.replace('_', '-') + '-mcp');
+}
+
+console.log('✅ MCP Servers loaded successfully!');
+console.log('🚗 Vehicle Design MCP ready');
+console.log('🗺️ Customer Journey MCP ready');
+console.log('📈 Market Intelligence MCP ready');

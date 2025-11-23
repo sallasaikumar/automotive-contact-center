@@ -9,6 +9,9 @@ const { GenerativeMarketingAgent } = require('./generative-marketing-agent');
 const { InteractiveServicingAgent } = require('./interactive-servicing-agent');
 const { AgenticCoreReasoning } = require('./agentic-core-reasoning');
 const { AgenticCoreLearning } = require('./agentic-core-learning');
+const { VehicleDesignMCP } = require('../mcp/vehicle-design-mcp');
+const { CustomerJourneyMCP } = require('../mcp/customer-journey-mcp');
+const { MarketIntelligenceMCP } = require('../mcp/market-intelligence-mcp');
 
 class SupervisorAgent {
   constructor() {
@@ -30,6 +33,11 @@ class SupervisorAgent {
     this.agenticReasoning = new AgenticCoreReasoning();
     this.agenticLearning = new AgenticCoreLearning();
     
+    // MCP Servers
+    this.vehicleDesignMCP = new VehicleDesignMCP();
+    this.customerJourneyMCP = new CustomerJourneyMCP();
+    this.marketIntelligenceMCP = new MarketIntelligenceMCP();
+    
     this.sessions = new Map();
     this.orchestrationMetrics = {
       totalRequests: 0,
@@ -42,7 +50,10 @@ class SupervisorAgent {
         campaigns: 0,
         serviceBookings: 0,
         agenticReasoning: 0,
-        agenticLearning: 0
+        agenticLearning: 0,
+        mcpVehicleDesign: 0,
+        mcpCustomerJourney: 0,
+        mcpMarketIntelligence: 0
       }
     };
   }
@@ -498,6 +509,69 @@ class SupervisorAgent {
         learningMetrics: this.agenticLearning.getLearningMetrics(),
         adaptiveStrategies: this.agenticLearning.getAdaptiveStrategies()
       }
+    };
+  }
+
+  // MCP - Vehicle Design
+  async handleVehicleDesignMCP(toolName, args) {
+    this.orchestrationMetrics.advancedFeatures.mcpVehicleDesign++;
+    
+    const result = await this.vehicleDesignMCP.callTool(toolName, args);
+    
+    return {
+      type: 'mcp_vehicle_design',
+      tool: toolName,
+      result: result,
+      metadata: {
+        feature: 'mcp_vehicle_design',
+        protocol: 'model-context-protocol'
+      }
+    };
+  }
+
+  // MCP - Customer Journey
+  async handleCustomerJourneyMCP(toolName, args) {
+    this.orchestrationMetrics.advancedFeatures.mcpCustomerJourney++;
+    
+    const result = await this.customerJourneyMCP.callTool(toolName, args);
+    
+    return {
+      type: 'mcp_customer_journey',
+      tool: toolName,
+      result: result,
+      metadata: {
+        feature: 'mcp_customer_journey',
+        protocol: 'model-context-protocol'
+      }
+    };
+  }
+
+  // MCP - Market Intelligence
+  async handleMarketIntelligenceMCP(toolName, args) {
+    this.orchestrationMetrics.advancedFeatures.mcpMarketIntelligence++;
+    
+    const result = await this.marketIntelligenceMCP.callTool(toolName, args);
+    
+    return {
+      type: 'mcp_market_intelligence',
+      tool: toolName,
+      result: result,
+      metadata: {
+        feature: 'mcp_market_intelligence',
+        protocol: 'model-context-protocol'
+      }
+    };
+  }
+
+  // Get MCP Status
+  async getMCPStatus() {
+    return {
+      vehicleDesign: this.vehicleDesignMCP.getServerInfo(),
+      customerJourney: this.customerJourneyMCP.getServerInfo(),
+      marketIntelligence: this.marketIntelligenceMCP.getServerInfo(),
+      totalServers: 3,
+      protocol: 'model-context-protocol',
+      status: 'active'
     };
   }
 }
